@@ -1,0 +1,52 @@
+.\"  -*- mode:nroff; -*-
+.\"
+.\"  GFontBrowser -- A font browser for GTK+, Fontconfig, Pango based systems.
+.\"
+.\"  Copyright © 2006,2008 Russel Winder
+.\"
+.\"    This program is free software: you can redistribute it and/or modify
+.\"    it under the terms of the GNU General Public License as published by
+.\"    the Free Software Foundation, either version 3 of the License, or
+.\"    (at your option) any later version.
+.\"
+.\"    This program is distributed in the hope that it will be useful,
+.\"    but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"    GNU General Public License for more details.
+.\"
+.\"    You should have received a copy of the GNU General Public License
+.\"    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.\"
+.\"
+.TH GFontBrowser 1 "2008-05-26"
+.SH NAME
+gfontbrowser \- A font browser for GTK+, Fontconfig, Pango based systems.
+.SH SYNOPSIS
+.B gfontbrowser
+.RI [ options ]
+.RI [ directories ]
+.SH DESCRIPTION
+\fBgfontbrowser\fP renders fonts so that they can be browsed.  The main window contains the family
+list, a view of the styles rendered in the named font, a sample text which is rendered in the view
+and a font size selector for specifying the size at which to render the font.  Double clicking on a
+family name brings up a dialogue box with the styles view which stays avaialble until dismissed.
+.PP
+There are two modes for using \fBgfontbrowser\fP.  Without parameters, it uses the Fontconfig
+default configuration to create a list of available fonts.  This list is of all fonts available,
+including ones that would be shadowed by the normal Fontconfig search so that duplicate fonts can be
+studied (perhaps leading to amendment of the Fontconfig configuration).  If parameters are given on
+the command line these are assumed to be directory names which are searched instead of the
+Fontconfig configuration for fonts.
+.SH OPTIONS
+\fBgfontbrowser\fP accepts the following options:
+.TP
+.B \-\?, \-\-help
+Show summary of options.
+.TP
+.B \-\-version
+Show version of program.
+.\" .SH "SEE ALSO"
+.\" .BR foo (1),
+.\" .BR bar (1).
+.SH AUTHOR
+Russel Winder <russel@winder.org.uk>.

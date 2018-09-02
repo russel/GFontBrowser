@@ -52,3 +52,6 @@ testExecutable = executable(
 )
 
 test('all tests', testExecutable)
+
+subdir('data')
+subdir('doc')

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=GFontBrowser
+Comment=A font browser for GTK+, Fontconfig, Pango based systems.
+Exec=@PREFIX@/bin/gfontbrowser %U
+Icon=@PREFIX@/share/pixmaps/gfontbrowser.png
+Terminal=false
+StartupNotify=true
+Categories=GTK;font
+#MimeType=video/mpeg;audio/x-mpeg;video/x-mpeg;
