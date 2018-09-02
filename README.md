@@ -32,7 +32,7 @@ in the project directory to build the project. Both builds support _build_, _run
 As an example of building using Meson, if this clone is in ~/Repositories/Git/GFontBrowser\_D,
 then create a build location, for example ~/BuildArea/GFontBrowser\_D, cd to that directory and then:
 
-    meson --prefix=$HOME/Built ~/Repositories/Git/GFontBrowser_C++
+    meson --prefix=$HOME/Built ~/Repositories/Git/GFontBrowser_D
 
 will construct a Ninja build. Then:
 
