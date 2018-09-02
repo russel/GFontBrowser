@@ -1,0 +1,23 @@
+name  "gfontbrowser"
+description  "A font browser for GTK+, Fontconfig, Pango based systems."
+authors  "Russel Winder <russel@winder.org.uk>"
+copyright  "Copyright © 2013–2015, 2017, 2018  Russel Winder <russel@winder.org.uk>"
+licence  "GPL-3.0"
+
+stringImportPaths  "." "source/resource"
+targetPath "bin"
+
+configuration "application" {
+    targetType "executable"
+    targetName "gfontbrowser"
+    dependency "gtk-d:gtkd" version="*"
+}
+
+configuration "unittest" {
+    targetType "executable"
+    targetName "unit-tests"
+    preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f bin/ut_unittest_main.d source"
+    mainSourceFile "bin/ut_unittest_main.d"
+    dependency "unit-threaded" version="*"
+    dependency "gtk-d:gtkd" version="*"
+}

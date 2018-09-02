@@ -1,0 +1,9 @@
+*~
+/bin/
+/.dub/
+/generated/
+/*.iml
+/.idea/
+/out/
+/scons_build/
+/.sconsign.dblite

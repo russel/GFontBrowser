@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="40.830002"
+   height="33.330002"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/home/users/russel/Bazaar/GFontBrowser/data"
+   sodipodi:docname="logo.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   inkscape:export-filename="/home/users/russel/Bazaar/GFontBrowser/data/logo.png"
+   inkscape:export-xdpi="105.80455"
+   inkscape:export-ydpi="105.80455">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="12.463679"
+     inkscape:cx="20.886242"
+     inkscape:cy="9.2292853"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="40.83px"
+     height="33.33px"
+     inkscape:window-width="1096"
+     inkscape:window-height="873"
+     inkscape:window-x="0"
+     inkscape:window-y="23" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-321.78995,-350.60294)">
+    <g
+       id="g2165"
+       transform="translate(1.5244295,1.6848958)">
+      <text
+         id="text2160"
+         y="372.69669"
+         x="323.09131"
+         style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           style="font-size:32px;fill:#00d400;font-family:Vivaldi"
+           y="372.69669"
+           x="323.09131"
+           id="tspan2162"
+           sodipodi:role="line">G</tspan></text>
+      <text
+         id="text2164"
+         y="364.76279"
+         x="325.96649"
+         style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           style="font-size:14px;font-style:normal;font-weight:normal;fill:#c87137;font-family:Viner Hand ITC"
+           y="364.76279"
+           x="325.96649"
+           id="tspan2166"
+           sodipodi:role="line">Font</tspan></text>
+      <text
+         id="text2168"
+         y="376.00308"
+         x="320.7001"
+         style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><tspan
+           style="font-weight:normal;fill:#aa00d4;font-family:Ocean Sans MT"
+           y="376.00308"
+           x="320.7001"
+           id="tspan2170"
+           sodipodi:role="line">Browser</tspan></text>
+    </g>
+  </g>
+</svg>
