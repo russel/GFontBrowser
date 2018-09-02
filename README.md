@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This applications allows browsing and investigating the fonts that are installed on your system – which is
+This application allows browsing and investigating the fonts that are installed on your system – which is
 assumed to be one on which GTK+3, Fontconfig, and Pango are installed.
 
 This application was originally to solve a fonts browsing problem I had that no GNOME tool solved (there
@@ -13,9 +13,10 @@ still isn't), and it serves that purpose – though it could be improved a lot.
 
 ## Building for Yourself
 
-The de facto build system for D programs is Dub and so there is a Dub build capability. Increasingly Meson
-is the de facto build tool for GTK-related builds on Linux, so there is a Meson build capability. I like
-SCons so that it supported as well.
+The de facto build system for D programs is [Dub](https://github.com/dlang/dub) and so there is a Dub build
+capability. Increasingly [Meson](http://mesonbuild.com/) is the de facto build tool for GTK-related builds
+on Linux, so there is a Meson build capability. I like [SCons](https://www.scons.org/) so that it supported
+as well.
 
 Dub and SCons work directly in the project directory, but they are nonetheless out-of-tree builds. So you
 can run:
@@ -26,7 +27,7 @@ or:
 
     scons
 
-in the project directory to build the project. Both builds support build, run, and test targets.
+in the project directory to build the project. Both builds support _build_, _run_, and _test_ targets.
 
 As an example of building using Meson, if this clone is in ~/Repositories/Git/GFontBrowser\_D,
 then create a build location, for example ~/BuildArea/GFontBrowser\_D, cd to that directory and then:
