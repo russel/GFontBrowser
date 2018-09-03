@@ -10,7 +10,10 @@ targetPath "bin"
 configuration "application" {
     targetType "executable"
     targetName "gfontbrowser"
-    dependency "gtk-d:gtkd" version="*"
+    importPaths "/usr/include/d/gtkd-3"
+    libs "gtkd-3"
+    #dependency "gtk-d:gtkd" version="*"
+    libs "fontconfig" "pangoft2"
 }
 
 configuration "unittest" {
@@ -19,5 +22,8 @@ configuration "unittest" {
     preBuildCommands "dub run unit-threaded -c gen_ut_main -- -f bin/ut_unittest_main.d source"
     mainSourceFile "bin/ut_unittest_main.d"
     dependency "unit-threaded" version="*"
-    dependency "gtk-d:gtkd" version="*"
+    importPaths "/usr/include/d/gtkd-3"
+    libs "gtkd-3"
+    #dependency "gtk-d:gtkd" version="*"
+    libs "fontconfig" "pangoft2"
 }

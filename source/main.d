@@ -30,8 +30,9 @@ import gtk.Application;
 import gtk.Builder;
 
 import about: showAbout;
-import configuration: applicationName, versionNumber;
 import applicationWindow: getApplicationWindow;
+import configuration: applicationName, versionNumber;
+import fontCatalogue: initialise;
 
 version (unittest) {
 }
@@ -46,6 +47,7 @@ else {
 			if (menuBuilder.addFromString(import("application_menu.xml"))) {
 				auto a = cast(Application) app;
 				a.setAppMenu(cast(MenuModel) menuBuilder.getObject("application_menu"));
+				initialise();
 				auto applicationWindow = getApplicationWindow(a);
 				auto aboutAction = new SimpleAction("about", null);
 				aboutAction.addOnActivate(delegate void(_, __){ showAbout(applicationWindow); });
@@ -57,7 +59,8 @@ else {
 				throw new Exception("Couldn't get the application menu.");
 			}
 		});
-		application.addOnActivate(delegate void(GioApplication app) { });
+		application.addOnActivate(delegate void(GioApplication app) {
+		});
 		application.addOnHandleLocalOptions(delegate int(VariantDict vd, GioApplication a){
 			if (vd.contains("version")) {
 				writeln(versionNumber);

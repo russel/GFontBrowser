@@ -15,6 +15,7 @@
 //
 //  Author:  Russel Winder <russel@winder.org.uk>
 
+import std.algorithm: sort;
 import std.string: strip;
 import std.stdio: writeln;
 
@@ -25,37 +26,24 @@ import gtk.ApplicationWindow;
 import gtk.Builder;
 
 import gtk.Button;
-import gtk.Widget;
+import gtk.CellRendererText;
+import gtk.EditableIF;
+import gtk.Entry;
+import gtk.ListStore;
+import gtk.SpinButton;
+import gtk.TreeView;
+import gtk.TreeViewColumn;
 
 import gdk.Event;
 
 import configuration: versionNumber;
-
-extern (C) void quit() {
-  exit(0);
-}
-
-extern (C) void refreshFontSize() {
-  writeln("refreshFontSize");
-}
-
-extern (C) void refreshSampleText() {
-  writeln("refreshSampleText");
-}
-
-extern (C) void familyListSingleClicked() {
-  writeln("familyListSingleClicked");
-}
-
-extern (C) void familyListDoubleClicked() {
-  writeln("familyListDoubleClicked");
-}
+import fontCatalogue: getFamilyMap;
 
 private ApplicationWindow applicationWindow = null;
-private Widget familyList = null;
-private Widget presentationList = null;
-private Widget sampleText = null;
-private Widget fontSize = null;
+private TreeView familyList = null;
+private TreeView presentationList = null;
+private Entry sampleText = null;
+private SpinButton fontSize = null;
 
 ApplicationWindow getApplicationWindow(Application application) {
 	if (applicationWindow is null) {
@@ -64,14 +52,28 @@ ApplicationWindow getApplicationWindow(Application application) {
 			writeln("Could not create widgets from the Glade file :-(");
 			exit(1);
 		}
-		builder.connectSignals(null);
 		applicationWindow = cast(ApplicationWindow) builder.getObject("applicationWindow");
 		assert(applicationWindow !is null);
 		application.addWindow(applicationWindow);
-		familyList = cast(Widget) builder.getObject("familyList");
-		presentationList = cast(Widget) builder.getObject("presentationList");
-		sampleText = cast(Widget) builder.getObject("sampleText");
-		fontSize = cast(Widget) builder.getObject("fontSize");
+		familyList = cast(TreeView)builder.getObject("familyList");
+		auto familyListStore = new ListStore([GType.STRING]);
+		writeln(*getFamilyMap());
+		foreach (item; getFamilyMap().keys.sort) {
+			auto iterator = familyListStore.createIter();
+			//writeln(item);
+			familyListStore.setValue(iterator, 0, item);
+		}
+		familyList.setModel(familyListStore);
+		familyList.appendColumn(new TreeViewColumn("Font Family", new CellRendererText(), "text", 0));
+		presentationList = cast(TreeView)builder.getObject("presentationList");
+		sampleText = cast(Entry)builder.getObject("sampleText");
+		sampleText.addOnChanged(delegate void(EditableIF ei) {
+			writeln("sampleText changed.");
+		});
+		fontSize = cast(SpinButton)builder.getObject("fontSize");
+		fontSize.addOnValueChanged(delegate void(SpinButton sb) {
+			writeln("fontSize changed.");
+		});
 		applicationWindow.setTitle("GFontBrowser");
 		applicationWindow.showAll();
 	}

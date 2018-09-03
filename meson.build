@@ -10,8 +10,9 @@ project(
 sources = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT && ls source/*.d').stdout().split()
 
 dependencies = [
-    #dependency('gtk-d:gtkd', version: '>= 3.8.3', method: 'dub'),
     dependency('gtkd-3', version: '>= 3.8.3'),
+    dependency('fontconfig', version: '>= 2.13.0'),
+    dependency('pangoft2', version: '>= 1.42.3'),
 ]
 
 test_dependencies = [
@@ -28,13 +29,16 @@ d_args = [
     '-J' + meson.current_source_dir() + '/source/resource',
 ]
 
+link_args = [
+]
+
 executable(
     'gfontbrowser',
     sources,
     dependencies: dependencies,
     include_directories: includes,
     d_args: d_args,
-    link_args: [],
+    link_args: link_args,
     install: true,
 )
 
@@ -48,7 +52,7 @@ testExecutable = executable(
     dependencies: dependencies + test_dependencies,
     include_directories: includes,
     d_args: d_args + ['-unittest'],
-    link_args: ['-main'],
+    link_args: link_args + ['-main'],
 )
 
 test('all tests', testExecutable)

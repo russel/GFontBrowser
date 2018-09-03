@@ -20,7 +20,7 @@
 import os
 import pathlib
 
-from SCons_PkgConfig import get_pkgconfig_flags
+from SCons_PkgConfig import get_pkgconfig_data
 from SCons_GNUInstall import get_paths
 
 build_directory_path = pathlib.Path('scons_build')
@@ -28,10 +28,18 @@ build_directory_path = pathlib.Path('scons_build')
 # unit-threaded test driver generator is locally built so we need it's location.
 built_prefix, built_bindir, built_datadir, built_libdir = get_paths(prefix=os.path.join(os.environ['HOME'], 'Built'))
 
-gtk_cflags_flags, gtk_libs_flags = get_pkgconfig_flags('gtkd-3')
+def dmd_style_link_flags(libs_list):
+    return ['-L{}'.format(flag) for flag in libs_list]
 
-unit_threaded_cflags, unitthreaded_libs = get_pkgconfig_flags('unit-threaded')
-unit_threaded_libs = ['-L{}'.format(flags) for flags in unitthreaded_libs]
+gtk_flags, gtk_libs = get_pkgconfig_data('gtkd-3')
+fontconfig_flags, fontconfig_libs = get_pkgconfig_data('fontconfig')
+pangoft2_flags, pangoft2_libs = get_pkgconfig_data('pangoft2')
+
+dependency_flags = gtk_flags + fontconfig_flags + pangoft2_flags
+dependency_libs = gtk_libs + dmd_style_link_flags(fontconfig_libs) + dmd_style_link_flags(pangoft2_libs)
+
+unitthreaded_flags, unitthreaded_libs = get_pkgconfig_data('unit-threaded')
+unitthreaded_libs = dmd_style_link_flags(unitthreaded_libs)
 
 # Need the -Wl,--export-dynamic option to the linker to avoid the
 # "Could not find signal handler XXXX.  Did you compile with -rdynamic?"
@@ -40,20 +48,21 @@ unit_threaded_libs = ['-L{}'.format(flags) for flags in unitthreaded_libs]
 environment =  Environment(
     tools=['ldc', 'link'],
     #DFLAGS=['-g', '-gc', '-d-debug', '-J.', '-Jsource/resource'],
-    DFLAGS=['-O', '-release', '-J.', '-Jsource/resource'] + gtk_cflags_flags + gtk_libs_flags,
-    DLINKFLAGS=['-link-defaultlib-shared', '-L-Wl,--export-dynamic'],
+    DFLAGS=['-O', '-release', '-J.', '-Jsource/resource'] + dependency_flags,
+    DLINKFLAGS=['-link-defaultlib-shared'] + dependency_libs,
     ENV=os.environ,
 )
 
 test_environment = environment.Clone()
-test_environment.Append(DFLAGS=['-unittest'] + unit_threaded_cflags)
-test_environment.Append(DLINKFLAGS=unit_threaded_libs)
+test_environment.Append(DFLAGS=['-unittest'] + unitthreaded_flags)
+test_environment.Append(DLINKFLAGS=unitthreaded_libs)
 
 source = Glob('source/*.d')
-application = environment.ProgramAllAtOnce((build_directory_path / 'gfontbrowser').as_posix(), source)
+fontconfig_module = environment.Command('generated/fontconfig.d', '/usr/include/fontconfig/fontconfig.h', 'dstep -o $TARGET $SOURCE')
+application = environment.ProgramAllAtOnce((build_directory_path / 'gfontbrowser').as_posix(), source + [fontconfig_module])
 
 test_main = test_environment.Command('generated/ut_main.d', source, 'gen-ut-main -f $TARGET source')
-test = test_environment.ProgramAllAtOnce((build_directory_path / 'gfontbrowser_test').as_posix(), source + [test_main])
+test = test_environment.ProgramAllAtOnce((build_directory_path / 'gfontbrowser_test').as_posix(), source + [fontconfig_module, test_main])
 
 Default(environment.Alias('build', application))
 environment.Command('run', application, './$SOURCE')
