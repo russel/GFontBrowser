@@ -16,6 +16,7 @@
 //  Author:  Russel Winder <russel@winder.org.uk>
 
 import std.algorithm: sort;
+import std.array: array;
 import std.string: strip;
 import std.stdio: writeln;
 
@@ -31,6 +32,7 @@ import gtk.EditableIF;
 import gtk.Entry;
 import gtk.ListStore;
 import gtk.SpinButton;
+import gtk.TreePath;
 import gtk.TreeView;
 import gtk.TreeViewColumn;
 
@@ -38,12 +40,14 @@ import gdk.Event;
 
 import configuration: versionNumber;
 import fontCatalogue: getFamilyMap;
+import presentation: PresentationDialog, PresentationListStore, PresentationTreeView,
+	onSampleTextChanged, onFontSizeChanged;
 
 private ApplicationWindow applicationWindow = null;
 private TreeView familyList = null;
-private TreeView presentationList = null;
-private Entry sampleText = null;
-private SpinButton fontSize = null;
+private PresentationTreeView presentationList = null;
+private Entry sampleText = null; // Access needed by presentation module.
+private SpinButton fontSize = null;  // Access needed by presentation module.
 
 ApplicationWindow getApplicationWindow(Application application) {
 	if (applicationWindow is null) {
@@ -53,29 +57,45 @@ ApplicationWindow getApplicationWindow(Application application) {
 			exit(1);
 		}
 		applicationWindow = cast(ApplicationWindow) builder.getObject("applicationWindow");
-		assert(applicationWindow !is null);
 		application.addWindow(applicationWindow);
 		familyList = cast(TreeView)builder.getObject("familyList");
 		auto familyListStore = new ListStore([GType.STRING]);
-		writeln(*getFamilyMap());
-		foreach (item; getFamilyMap().keys.sort) {
+		auto familyListData = getFamilyMap.keys.sort.array;
+		foreach (item; familyListData) {
 			auto iterator = familyListStore.createIter();
-			//writeln(item);
 			familyListStore.setValue(iterator, 0, item);
 		}
 		familyList.setModel(familyListStore);
 		familyList.appendColumn(new TreeViewColumn("Font Family", new CellRendererText(), "text", 0));
-		presentationList = cast(TreeView)builder.getObject("presentationList");
+		familyList.addOnCursorChanged(delegate void(TreeView tv) {
+			TreePath tp = null;
+			TreeViewColumn tvc = null;
+			tv.getCursor(tp, tvc);
+			presentationList.setModel(new PresentationListStore(familyListData[tp.getIndices[0]], sampleText.getText, fontSize.getValue));
+		});
+		familyList.addOnRowActivated(delegate void(TreePath tp, TreeViewColumn tvc, TreeView tv) {
+			new PresentationDialog(applicationWindow, familyListData[tp.getIndices[0]],sampleText.getText, fontSize.getValue);
+		});
+		presentationList = new PresentationTreeView(cast(TreeView)builder.getObject("presentationList"));
 		sampleText = cast(Entry)builder.getObject("sampleText");
 		sampleText.addOnChanged(delegate void(EditableIF ei) {
-			writeln("sampleText changed.");
+			onSampleTextChanged(sampleText.getText);
 		});
 		fontSize = cast(SpinButton)builder.getObject("fontSize");
 		fontSize.addOnValueChanged(delegate void(SpinButton sb) {
-			writeln("fontSize changed.");
+			onFontSizeChanged(fontSize.getValue);
 		});
 		applicationWindow.setTitle("GFontBrowser");
 		applicationWindow.showAll();
 	}
 	return applicationWindow;
 }
+
+//  Local Variables:
+//  mode: d
+//  indent-tabs-mode: t
+//  c-basic-offset: 4
+//  tab-width: 4
+//  End:
+
+//  vim: noet ci pi sts=0 sw=4 ts=4

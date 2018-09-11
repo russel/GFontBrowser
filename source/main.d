@@ -74,3 +74,12 @@ else {
 		return application.run(args);
 	}
 }
+
+//  Local Variables:
+//  mode: d
+//  indent-tabs-mode: t
+//  c-basic-offset: 4
+//  tab-width: 4
+//  End:
+
+//  vim: noet ci pi sts=0 sw=4 ts=4

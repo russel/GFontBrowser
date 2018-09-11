@@ -46,7 +46,7 @@ alias FamilyMap = FcPattern*[][string];
  */
 private FamilyMap familyMap;
 
-public void initialise() {
+void initialise() {
 	configuration = FcInitLoadConfigAndFonts();
 	if (! configuration) { throw new Exception("Cannot initialize Fontconfig library."); }
 	auto fcFontSet = FcConfigGetFonts(configuration, FcSetName.FcSetSystem);
@@ -90,7 +90,7 @@ private void processDirectoryEntry(FcChar8 * directoryName) {
 	//  which would sort of ruin the whole application.
 }
 
-public void initialize(string[] directories) {
+void initialize(string[] directories) {
 	configuration = null;
 	auto directorySet = FcStrSetCreate();
 	if (! directorySet) { throw new Exception("Directory set has not been made."); }
@@ -103,9 +103,9 @@ public void initialize(string[] directories) {
 	FcStrListDone(directoryList);
 }
 
-public const(FamilyMap) * getFamilyMap() { return &familyMap; }
+FamilyMap * getFamilyMap() { return &familyMap; }
 
-public string getStringProperty(string property, FcPattern * pattern) {
+string getStringProperty(string property, FcPattern * pattern) {
 	FcChar8 * returnValue;
 	if (FcPatternGetString(pattern, cast(char*)property.toStringz, 0, &returnValue) != FcResult.FcResultMatch) {
 		throw new Exception("Failed to find the string property: " ~ property);
@@ -113,21 +113,19 @@ public string getStringProperty(string property, FcPattern * pattern) {
 	return to!string((cast(char*)returnValue).fromStringz);
 }
 
-public string getFontFamily(FcPattern * pattern) { return getStringProperty(FC_FAMILY, pattern); }
+string getFontFamily(FcPattern * pattern) { return getStringProperty(FC_FAMILY, pattern); }
 
-public string getFontStyle(FcPattern * pattern) { return getStringProperty(FC_STYLE, pattern); }
+string getFontStyle(FcPattern * pattern) { return getStringProperty(FC_STYLE, pattern); }
 
-public string getFontFileName(FcPattern * pattern) { return getStringProperty(FC_FILE, pattern); }
+string getFontFileName(FcPattern * pattern) { return getStringProperty(FC_FILE, pattern); }
 
-public PgFontDescription getFontDescription(FcPattern * pattern) {
-	PgFontDescription fontDescription = new PgFontDescription(pango_fc_font_description_from_pattern(pattern, false), false);
-	//fontDescription.set_size(FontBrowser::font_size.get_value_as_int() * Pango::SCALE);
-	return fontDescription;
+PgFontDescription getFontDescription(FcPattern * pattern) {
+	return new PgFontDescription(pango_fc_font_description_from_pattern(pattern, false), false);
 }
 
-public bool isVisible(FcPattern * pattern) {
+bool isVisible(FcPattern * pattern) {
 
-	return false; ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	return true; ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*
 	FcDefaultSubstitute(pattern);
@@ -164,7 +162,7 @@ public bool isVisible(FcPattern * pattern) {
 }
 
 //  Local Variables:
-//  mode: cpp
+//  mode: d
 //  indent-tabs-mode: t
 //  c-basic-offset: 4
 //  tab-width: 4
