@@ -35,6 +35,9 @@ import configuration: applicationName, versionNumber;
 import fontCatalogue: initialise;
 
 version (unittest) {
+	@("Gratuitous test to ensure there is at least one test.") unittest {
+		assert(0 == 0);
+	}
 }
 else {
 	int main(string[] args) {

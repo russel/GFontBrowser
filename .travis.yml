@@ -3,9 +3,9 @@ sudo: true
 dist: xenial
 
 d:
-  - dmd
+  # - dmd # Link failure
   - ldc
-  - gdc
+  # - gdc # Uses gdc 4.8.5 which is just too old.
 
 before_script:
   - sudo apt-get -qq update
