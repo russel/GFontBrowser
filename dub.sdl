@@ -4,6 +4,7 @@ authors  "Russel Winder <russel@winder.org.uk>"
 copyright  "Copyright © 2013–2015, 2017, 2018  Russel Winder <russel@winder.org.uk>"
 licence  "GPL-3.0"
 
+importPaths "source" "generated"
 stringImportPaths  "." "source/resource"
 targetPath "bin"
 
