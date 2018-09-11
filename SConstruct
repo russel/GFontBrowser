@@ -59,6 +59,7 @@ test_environment.Append(DLINKFLAGS=unitthreaded_libs)
 
 source = Glob('source/*.d')
 fontconfig_module = environment.Command('generated/fontconfig.d', '/usr/include/fontconfig/fontconfig.h', 'dstep -o $TARGET $SOURCE')
+NoClean(fontconfig_module)
 application = environment.ProgramAllAtOnce((build_directory_path / 'gfontbrowser').as_posix(), source + [fontconfig_module])
 
 test_main = test_environment.Command('generated/ut_main.d', source, 'gen-ut-main -f $TARGET source')
@@ -68,4 +69,4 @@ Default(environment.Alias('build', application))
 environment.Command('run', application, './$SOURCE')
 test_environment.Command('test', test, './$SOURCE')
 
-Clean('.', [build_directory_path.as_posix(), 'generated'])
+Clean('.', [build_directory_path.as_posix()])

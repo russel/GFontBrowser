@@ -21,7 +21,8 @@ test_dependencies = [
 ]
 
 includes = [
-   include_directories('source'),
+    include_directories('source'),
+    include_directories('generated'),
 ]
 
 d_args = [
