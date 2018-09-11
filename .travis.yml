@@ -4,7 +4,7 @@ dist: xenial
 
 d:
   - dmd
-  - ldc2
+  - ldc
   - gdc
 
 before_script:
