@@ -1,0 +1,7 @@
+language: d
+dist: xenial
+
+d:
+  - dmd
+  - ldc2
+  - gdc
