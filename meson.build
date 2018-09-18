@@ -3,7 +3,7 @@
 project(
     'GFontBrowser',
     'd',
-    version: '0.0.0',
+    version: '0.1.0',
     default_options: ['buildtype=release'],
 )
 
