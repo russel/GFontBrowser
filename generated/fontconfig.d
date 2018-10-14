@@ -39,7 +39,7 @@ alias FcBool = int;
 
 enum FC_MAJOR = 2;
 enum FC_MINOR = 13;
-enum FC_REVISION = 0;
+enum FC_REVISION = 1;
 
 enum FC_VERSION = (FC_MAJOR * 10000) + (FC_MINOR * 100) + FC_REVISION;
 
@@ -262,6 +262,14 @@ alias FcValueBinding = _FcValueBinding;
 struct _FcPattern;
 alias FcPattern = _FcPattern;
 
+struct _FcPatternIter
+{
+    void* dummy1;
+    void* dummy2;
+}
+
+alias FcPatternIter = _FcPatternIter;
+
 struct _FcLangSet;
 alias FcLangSet = _FcLangSet;
 
@@ -406,6 +414,8 @@ FcBool FcDirCacheClean (const(FcChar8)* cache_dir, FcBool verbose);
 void FcCacheCreateTagFile (const(FcConfig)* config);
 
 FcBool FcDirCacheCreateUUID (FcChar8* dir, FcBool force, FcConfig* config);
+
+FcBool FcDirCacheDeleteUUID (const(FcChar8)* dir, FcConfig* config);
 
 /* fccfg.c */
 FcChar8* FcConfigHome ();
@@ -775,6 +785,8 @@ FcValue FcValueSave (FcValue v);
 
 void FcPatternDestroy (FcPattern* p);
 
+int FcPatternObjectCount (const(FcPattern)* pat);
+
 FcBool FcPatternEqual (const(FcPattern)* pa, const(FcPattern)* pb);
 
 FcBool FcPatternEqualSubset (
@@ -905,6 +917,36 @@ void FcRangeDestroy (FcRange* range);
 FcRange* FcRangeCopy (const(FcRange)* r);
 
 FcBool FcRangeGetDouble (const(FcRange)* range, double* begin, double* end);
+
+void FcPatternIterStart (const(FcPattern)* pat, FcPatternIter* iter);
+
+FcBool FcPatternIterNext (const(FcPattern)* pat, FcPatternIter* iter);
+
+FcBool FcPatternIterEqual (
+    const(FcPattern)* p1,
+    FcPatternIter* i1,
+    const(FcPattern)* p2,
+    FcPatternIter* i2);
+
+FcBool FcPatternFindIter (
+    const(FcPattern)* pat,
+    FcPatternIter* iter,
+    const(char)* object);
+
+FcBool FcPatternIterIsValid (const(FcPattern)* pat, FcPatternIter* iter);
+
+const(char)* FcPatternIterGetObject (
+    const(FcPattern)* pat,
+    FcPatternIter* iter);
+
+int FcPatternIterValueCount (const(FcPattern)* pat, FcPatternIter* iter);
+
+FcResult FcPatternIterGetValue (
+    const(FcPattern)* pat,
+    FcPatternIter* iter,
+    int id,
+    FcValue* v,
+    FcValueBinding* b);
 
 /* fcweight.c */
 
