@@ -2,6 +2,6 @@
 	"fileVersion": 1,
 	"versions": {
 		"gtk-d": "3.8.3",
-		"unit-threaded": "0.7.51"
+		"unit-threaded": "0.7.52"
 	}
 }
