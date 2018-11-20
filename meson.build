@@ -33,8 +33,7 @@ dependencies = [
 ]
 
 test_dependencies = [
-    #dependency('unit-threaded', version: '>= 0.7.52', method: 'dub'),
-    dependency('unit-threaded', version: '>= 0.7.49'),  # Problem building 0.7.51
+    dependency('unit-threaded', version: '>= 0.7.52'),
 ]
 
 includes = [
@@ -74,7 +73,7 @@ testExecutable = executable(
     build_by_default: false,
 )
 
-# test('all tests', testExecutable)
+test('all tests', testExecutable)
 
 subdir('data')
 subdir('doc')
