@@ -17,15 +17,18 @@
 #
 #  Author: Russel Winder <russel@winder.org.uk>
 
-data_directory_process = run_command('python3', ['-c',  'import os; print(os.environ.get("XDG_DATA_HOME", os.path.join(os.environ["HOME"], ".local", "share")))'])
-data_directory = data_directory_process.stdout().strip()
+prefix = get_option('prefix')
+datadir = get_option('datadir')
+applicationsdir = join_paths(datadir, 'applications')
+pixmapsdir = join_paths(datadir, 'pixmaps')
 
-desktop_target = custom_target('desktop-file',
+conf_data = configuration_data()
+conf_data.set('PREFIX', prefix)
+configure_file(
     input: 'gfontbrowser.desktop.in',
     output: 'gfontbrowser.desktop',
-    command: [find_program('sed'), 's,@PREFIX@,' + get_option('prefix') + ',; w @OUTPUT@', '@INPUT@'],
-    install: true,
-    install_dir: join_paths(data_directory, 'applications'),
+    configuration: conf_data,
+    install_dir: applicationsdir
 )
 
-install_data('gfontbrowser.png', install_dir: join_paths(get_option('datadir'), 'pixmaps'))
+install_data('gfontbrowser.png', install_dir: pixmapsdir)
