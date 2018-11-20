@@ -36,7 +36,7 @@ fontconfig_flags, fontconfig_libs = get_pkgconfig_data('fontconfig')
 pangoft2_flags, pangoft2_libs = get_pkgconfig_data('pangoft2')
 
 dependency_flags = gtk_flags + fontconfig_flags + pangoft2_flags
-dependency_libs = gtk_libs + dmd_style_link_flags(fontconfig_libs) + dmd_style_link_flags(pangoft2_libs)
+dependency_libs = dmd_style_link_flags(gtk_libs) + dmd_style_link_flags(fontconfig_libs) + dmd_style_link_flags(pangoft2_libs)
 
 unitthreaded_flags, unitthreaded_libs = get_pkgconfig_data('unit-threaded')
 unitthreaded_libs = dmd_style_link_flags(unitthreaded_libs)
@@ -67,6 +67,7 @@ test = test_environment.ProgramAllAtOnce((build_directory_path / 'gfontbrowser_t
 
 Default(environment.Alias('build', application))
 environment.Command('run', application, './$SOURCE')
+test_environment.Alias('build_test', test)
 test_environment.Command('test', test, './$SOURCE')
 
 Clean('.', [build_directory_path.as_posix()])
