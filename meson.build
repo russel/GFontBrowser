@@ -27,13 +27,13 @@ project(
 sources = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT && ls source/*.d').stdout().split()
 
 dependencies = [
-    dependency('gtkd-3', version: '>= 3.8.3'),
-    dependency('fontconfig', version: '>= 2.13.0'),
-    dependency('pangoft2', version: '>= 1.42.3'),
+    dependency('gtkd-3', version: '>= 3.8.5'),
+    dependency('fontconfig', version: '>= 2.13.1'),
+    dependency('pangoft2', version: '>= 1.42.3'),  # Should be 1.42.4
 ]
 
 test_dependencies = [
-    dependency('unit-threaded', version: '>= 0.7.52'),
+    dependency('unit-threaded', version: '>= 0.8.0'),
 ]
 
 includes = [
