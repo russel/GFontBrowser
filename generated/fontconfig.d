@@ -22,7 +22,9 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+import core.stdc.limits;
 import core.stdc.stdarg;
+import core.sys.posix.sys.stat;
 
 extern (C):
 
@@ -971,17 +973,23 @@ void FcStrFree (FcChar8* s);
 /* These are ASCII only, suitable only for pattern element names */
 extern (D) auto FcIsUpper(T)(auto ref T c)
 {
-    return (std.conv.octal!101 <= c && c <= std.conv.octal!132);
+    import std.conv : octal;
+
+    return (octal!101 <= c && c <= octal!132);
 }
 
 extern (D) auto FcIsLower(T)(auto ref T c)
 {
-    return (std.conv.octal!141 <= c && c <= std.conv.octal!172);
+    import std.conv : octal;
+
+    return (octal!141 <= c && c <= octal!172);
 }
 
 extern (D) auto FcToLower(T)(auto ref T c)
 {
-    return FcIsUpper(c) ? c - std.conv.octal!101 + std.conv.octal!141 : c;
+    import std.conv : octal;
+
+    return FcIsUpper(c) ? c - octal!101 + octal!141 : c;
 }
 
 FcChar8* FcStrDowncase (const(FcChar8)* s);
