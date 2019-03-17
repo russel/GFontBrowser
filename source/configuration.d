@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2018  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2018, 2019  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -22,9 +22,9 @@ public immutable versionNumber = import("VERSION").strip();
 
 //  Local Variables:
 //  mode: d
-//  indent-tabs-mode: t
+//  indent-tabs-mode: nil
 //  c-basic-offset: 4
 //  tab-width: 4
 //  End:
 
-//  vim: noet ci pi sts=0 sw=4 ts=4
+//  vim: et ci pi sts=0 sw=4 ts=4

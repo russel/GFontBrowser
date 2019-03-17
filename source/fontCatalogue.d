@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2018  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2018, 2019  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -30,7 +30,7 @@ import fontconfig;
 //  Bold.
 
 extern(C) {
-	PangoFontDescription * pango_fc_font_description_from_pattern(FcPattern * pattern, bool include_size);
+    PangoFontDescription * pango_fc_font_description_from_pattern(FcPattern * pattern, bool include_size);
 }
 
 /**
@@ -47,70 +47,70 @@ alias FamilyMap = FcPattern*[][string];
 private FamilyMap familyMap;
 
 void initialise() {
-	configuration = FcInitLoadConfigAndFonts();
-	if (! configuration) { throw new Exception("Cannot initialize Fontconfig library."); }
-	auto fcFontSet = FcConfigGetFonts(configuration, FcSetName.FcSetSystem);
-	if (! fcFontSet) { throw new Exception("Failed to create the font set."); }
-	for (auto i = 0; i < fcFontSet.nfont; ++i) {
-		auto pattern = fcFontSet.fonts[i];
-		familyMap[getFontFamily(pattern)] ~= pattern;
-	}
+    configuration = FcInitLoadConfigAndFonts();
+    if (! configuration) { throw new Exception("Cannot initialize Fontconfig library."); }
+    auto fcFontSet = FcConfigGetFonts(configuration, FcSetName.FcSetSystem);
+    if (! fcFontSet) { throw new Exception("Failed to create the font set."); }
+    for (auto i = 0; i < fcFontSet.nfont; ++i) {
+        auto pattern = fcFontSet.fonts[i];
+        familyMap[getFontFamily(pattern)] ~= pattern;
+    }
 }
 
 private void processDirectoryList(FcStrList * directoryList) {
-	for (auto directoryName = FcStrListNext(directoryList); directoryName; directoryName = FcStrListNext(directoryList)) {
-		processDirectoryEntry(directoryName);
-	}
+    for (auto directoryName = FcStrListNext(directoryList); directoryName; directoryName = FcStrListNext(directoryList)) {
+        processDirectoryEntry(directoryName);
+    }
 }
 
 private void processDirectoryEntry(FcChar8 * directoryName) {
-	auto dirName = to!string(directoryName);
-	if (! dirName.exists) { return; }
-	auto directoryFontSet = FcFontSetCreate();
-	if (! directoryFontSet) { throw new Exception("Failed to create the font set for: " ~ dirName); }
-	auto subdirectorySet = FcStrSetCreate();
-	if (! subdirectorySet) { throw new Exception("Failed to create the subdirectory names set for directory: " ~ dirName); }
-	//  TODO: Although this allows us to get the list of faces in the directory, it doesn't put them in the
-	//  list that can be rendered; this should be fixed.
-	auto returnCode = FcDirScan(directoryFontSet, subdirectorySet, null, FcConfigGetBlanks(configuration), directoryName, FcTrue);
-	if (returnCode == FcFalse) { throw new Exception("Failed to scan directories with FcDirScan: " ~ dirName); }
-	for (auto i = 0; i < directoryFontSet.nfont; ++i) {
-		auto pattern = directoryFontSet.fonts[i];
-		FcValue value;
-		if (FcPatternGet(pattern, FC_FAMILY, 0, &value) != FcResult.FcResultMatch) { throw new Exception("Failed to find the family name for a font in: " ~ dirName); }
-		if (value.type != FcType.FcTypeString) { throw new Exception("Return property is of the wrong type: " ~ dirName); }
-		familyMap[to!string(value.u.s)] ~= pattern;
-	}
-	auto subdirectoryList = FcStrListCreate(subdirectorySet);
-	if (! subdirectoryList) { throw new Exception("Failed to create subdirectory list in: " ~ dirName); }
-	processDirectoryList(subdirectoryList);
-	FcStrListDone(subdirectoryList);
-	FcStrSetDestroy(subdirectorySet);
-	//  NB Do not destroy directoryFontSet since this would destroy the FcPatterns we have put into family_map
-	//  which would sort of ruin the whole application.
+    auto dirName = to!string(directoryName);
+    if (! dirName.exists) { return; }
+    auto directoryFontSet = FcFontSetCreate();
+    if (! directoryFontSet) { throw new Exception("Failed to create the font set for: " ~ dirName); }
+    auto subdirectorySet = FcStrSetCreate();
+    if (! subdirectorySet) { throw new Exception("Failed to create the subdirectory names set for directory: " ~ dirName); }
+    //  TODO: Although this allows us to get the list of faces in the directory, it doesn't put them in the
+    //  list that can be rendered; this should be fixed.
+    auto returnCode = FcDirScan(directoryFontSet, subdirectorySet, null, FcConfigGetBlanks(configuration), directoryName, FcTrue);
+    if (returnCode == FcFalse) { throw new Exception("Failed to scan directories with FcDirScan: " ~ dirName); }
+    for (auto i = 0; i < directoryFontSet.nfont; ++i) {
+        auto pattern = directoryFontSet.fonts[i];
+        FcValue value;
+        if (FcPatternGet(pattern, FC_FAMILY, 0, &value) != FcResult.FcResultMatch) { throw new Exception("Failed to find the family name for a font in: " ~ dirName); }
+        if (value.type != FcType.FcTypeString) { throw new Exception("Return property is of the wrong type: " ~ dirName); }
+        familyMap[to!string(value.u.s)] ~= pattern;
+    }
+    auto subdirectoryList = FcStrListCreate(subdirectorySet);
+    if (! subdirectoryList) { throw new Exception("Failed to create subdirectory list in: " ~ dirName); }
+    processDirectoryList(subdirectoryList);
+    FcStrListDone(subdirectoryList);
+    FcStrSetDestroy(subdirectorySet);
+    //  NB Do not destroy directoryFontSet since this would destroy the FcPatterns we have put into family_map
+    //  which would sort of ruin the whole application.
 }
 
 void initialize(string[] directories) {
-	configuration = null;
-	auto directorySet = FcStrSetCreate();
-	if (! directorySet) { throw new Exception("Directory set has not been made."); }
-	foreach (item; directories) {
-		FcStrSetAdd(directorySet, cast(FcChar8*)item.toStringz);
-	}
-	auto directoryList = FcStrListCreate(directorySet);
-	if (! directoryList) { throw new Exception("Directory list has not been made."); }
-	processDirectoryList(directoryList);
-	FcStrListDone(directoryList);
+    configuration = null;
+    auto directorySet = FcStrSetCreate();
+    if (! directorySet) { throw new Exception("Directory set has not been made."); }
+    foreach (item; directories) {
+        FcStrSetAdd(directorySet, cast(FcChar8*)item.toStringz);
+    }
+    auto directoryList = FcStrListCreate(directorySet);
+    if (! directoryList) { throw new Exception("Directory list has not been made."); }
+    processDirectoryList(directoryList);
+    FcStrListDone(directoryList);
 }
 
 FamilyMap * getFamilyMap() { return &familyMap; }
 
 string getStringProperty(string property, FcPattern * pattern) {
-	FcChar8 * returnValue;
-	if (FcPatternGetString(pattern, cast(char*)property.toStringz, 0, &returnValue) != FcResult.FcResultMatch) {
-		throw new Exception("Failed to find the string property: " ~ property);
-	}
-	return to!string((cast(char*)returnValue).fromStringz);
+    FcChar8 * returnValue;
+    if (FcPatternGetString(pattern, cast(char*)property.toStringz, 0, &returnValue) != FcResult.FcResultMatch) {
+        throw new Exception("Failed to find the string property: " ~ property);
+    }
+    return to!string((cast(char*)returnValue).fromStringz);
 }
 
 string getFontFamily(FcPattern * pattern) { return getStringProperty(FC_FAMILY, pattern); }
@@ -120,14 +120,14 @@ string getFontStyle(FcPattern * pattern) { return getStringProperty(FC_STYLE, pa
 string getFontFileName(FcPattern * pattern) { return getStringProperty(FC_FILE, pattern); }
 
 PgFontDescription getFontDescription(FcPattern * pattern) {
-	return new PgFontDescription(pango_fc_font_description_from_pattern(pattern, false), false);
+    return new PgFontDescription(pango_fc_font_description_from_pattern(pattern, false), false);
 }
 
 bool isVisible(FcPattern * pattern) {
 
-	return true; ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    return true; ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
+    /*
 	FcDefaultSubstitute(pattern);
 
 #if DO_DEBUGGING
@@ -163,9 +163,9 @@ bool isVisible(FcPattern * pattern) {
 
 //  Local Variables:
 //  mode: d
-//  indent-tabs-mode: t
+//  indent-tabs-mode: nil
 //  c-basic-offset: 4
 //  tab-width: 4
 //  End:
 
-//  vim: noet ci pi sts=0 sw=4 ts=4
+//  vim: et ci pi sts=0 sw=4 ts=4

@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2017, 2018  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2017–2019  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -31,25 +31,25 @@ import configuration: applicationName, versionNumber;
  * @return a reference to an about dialogue.
  */
 private AboutDialog create() {
-	auto about = new AboutDialog();
-	string[] authors;
-	authors ~= "Russel Winder <russel@winder.org.uk>";
-	string[] documentors;
-	about.setAuthors(authors);
-	about.setComments("A font browser for GTK+, Fontconfig, Pango based system.");
-	about.setCopyright("Copyright \u00a9 2013\u20132014, 2017, 2018  Russel Winder <russel@winder.org.uk>");
-	about.setDocumenters(documentors);
-	about.setLicense("This program is licenced under GNU General Public Licence (GPL) version 3.");
-	auto loader = new PixbufLoader();
-	loader.setSize(180, 147);
-	loader.write(cast(char[]) import("gfontbrowser.svg"));
-	loader.close();
-	about.setLogo(loader.getPixbuf());
-	about.setName(applicationName);
-	about.setProgramName(applicationName);
-	about.setTranslatorCredits("Translator Credits");
-	about.setVersion(versionNumber);
-	return about;
+    auto about = new AboutDialog();
+    string[] authors;
+    authors ~= "Russel Winder <russel@winder.org.uk>";
+    string[] documentors;
+    about.setAuthors(authors);
+    about.setComments("A font browser for GTK+, Fontconfig, Pango based system.");
+    about.setCopyright("Copyright \u00a9 2013\u20132014, 2017, 2018  Russel Winder <russel@winder.org.uk>");
+    about.setDocumenters(documentors);
+    about.setLicense("This program is licenced under GNU General Public Licence (GPL) version 3.");
+    auto loader = new PixbufLoader();
+    loader.setSize(180, 147);
+    loader.write(cast(char[]) import("gfontbrowser.svg"));
+    loader.close();
+    about.setLogo(loader.getPixbuf());
+    about.setName(applicationName);
+    about.setProgramName(applicationName);
+    about.setTranslatorCredits("Translator Credits");
+    about.setVersion(versionNumber);
+    return about;
 }
 
 /**
@@ -58,24 +58,24 @@ private AboutDialog create() {
  * @param window the temporary parent of the about dialogue.
  */
 public void showAbout(Window parent) {
-	static bool active = false;
-	if (!active) {
-		auto dialog = create();
-		dialog.setTransientFor(parent);
-		dialog.addOnResponse(delegate void(_, d) {
-			d.destroy();
-			active = false;
-		});
-		dialog.show();
-		active = true;
-	}
+    static bool active = false;
+    if (!active) {
+        auto dialog = create();
+        dialog.setTransientFor(parent);
+        dialog.addOnResponse(delegate void(_, d) {
+            d.destroy();
+            active = false;
+        });
+        dialog.show();
+        active = true;
+    }
 }
 
 //  Local Variables:
 //  mode: d
-//  indent-tabs-mode: t
+//  indent-tabs-mode: nil
 //  c-basic-offset: 4
 //  tab-width: 4
 //  End:
 
-//  vim: noet ci pi sts=0 sw=4 ts=4
+//  vim: et ci pi sts=0 sw=4 ts=4

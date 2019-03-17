@@ -35,47 +35,47 @@ import configuration: applicationName, versionNumber;
 import fontCatalogue: initialise;
 
 version (unittest) {
-	@("Gratuitous test to ensure there is at least one test.") unittest {
-		assert(0 == 0);
-	}
+    @("Gratuitous test to ensure there is at least one test.") unittest {
+        assert(0 == 0);
+    }
 }
 else {
-	int main(string[] args) {
-		//auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.HANDLES_COMMAND_LINE);
-		auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.FLAGS_NONE);
-		Util.setApplicationName(applicationName);
-		application.addMainOption("version", 'v', GOptionFlags.NONE, GOptionArg.NONE, "Show the " ~ applicationName ~ " version.", null);
-		application.addOnStartup(delegate void(GioApplication app) {
-			auto menuBuilder = new Builder();
-			if (menuBuilder.addFromString(import("application_menu.xml"))) {
-				auto a = cast(Application) app;
-				a.setAppMenu(cast(MenuModel) menuBuilder.getObject("application_menu"));
-				initialise();
-				auto applicationWindow = getApplicationWindow(a);
-				auto aboutAction = new SimpleAction("about", null);
-				aboutAction.addOnActivate(delegate void(_, __){ showAbout(applicationWindow); });
-				a.addAction(aboutAction);
-				auto quitAction = new SimpleAction("quit", null);
-				quitAction.addOnActivate(delegate void(_, __){ a.quit(); });
-				a.addAction(quitAction);
-			} else {
-				throw new Exception("Couldn't get the application menu.");
-			}
-		});
-		application.addOnActivate(delegate void(GioApplication app) {
-		});
-		application.addOnHandleLocalOptions(delegate int(VariantDict vd, GioApplication a){
-			if (vd.contains("version")) {
-				writeln(versionNumber);
-				return 0;
-			}
-			return -1;
-		});
-		application.addOnCommandLine(delegate int(ApplicationCommandLine acl, GioApplication a){
-			return -1;
-		});
-		return application.run(args);
-	}
+    int main(string[] args) {
+        //auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.HANDLES_COMMAND_LINE);
+        auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.FLAGS_NONE);
+        Util.setApplicationName(applicationName);
+        application.addMainOption("version", 'v', GOptionFlags.NONE, GOptionArg.NONE, "Show the " ~ applicationName ~ " version.", null);
+        application.addOnStartup(delegate void(GioApplication app) {
+            auto menuBuilder = new Builder();
+            if (menuBuilder.addFromString(import("application_menu.xml"))) {
+                auto a = cast(Application) app;
+                a.setAppMenu(cast(MenuModel) menuBuilder.getObject("application_menu"));
+                initialise();
+                auto applicationWindow = getApplicationWindow(a);
+                auto aboutAction = new SimpleAction("about", null);
+                aboutAction.addOnActivate(delegate void(_, __){ showAbout(applicationWindow); });
+                a.addAction(aboutAction);
+                auto quitAction = new SimpleAction("quit", null);
+                quitAction.addOnActivate(delegate void(_, __){ a.quit(); });
+                a.addAction(quitAction);
+            } else {
+                throw new Exception("Couldn't get the application menu.");
+            }
+        });
+        application.addOnActivate(delegate void(GioApplication app) {
+        });
+        application.addOnHandleLocalOptions(delegate int(VariantDict vd, GioApplication a){
+            if (vd.contains("version")) {
+                writeln(versionNumber);
+                return 0;
+            }
+            return -1;
+        });
+        application.addOnCommandLine(delegate int(ApplicationCommandLine acl, GioApplication a){
+            return -1;
+        });
+        return application.run(args);
+    }
 }
 
 //  Local Variables:
