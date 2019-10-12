@@ -1,7 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"gtk-d": "3.8.5",
-		"unit-threaded": "0.8.0"
+		"gtk-d": "3.9.0",
+		"unit-threaded": "0.10.3"
 	}
 }

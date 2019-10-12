@@ -2,7 +2,7 @@
 
 # GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 #
-# Copyright © 2018  Russel Winder <russel@winder.org.uk>
+# Copyright © 2018, 2019  Russel Winder <russel@winder.org.uk>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,13 +27,13 @@ project(
 sources = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT && ls source/*.d').stdout().split()
 
 dependencies = [
-    dependency('gtkd-3', version: '>= 3.8.5'),
+    dependency('gtkd-3', version: '>= 3.8.5'), # 3.9.0 is available but not in Debian yet.
     dependency('fontconfig', version: '>= 2.13.1'),
-    dependency('pangoft2', version: '>= 1.42.3'),  # Should be 1.42.4
+    dependency('pangoft2', version: '>= 1.42.3'),  # Should be 1.42.4 but it doesn't work.
 ]
 
 test_dependencies = [
-    dependency('unit-threaded', version: '>= 0.8.0'),
+    dependency('unit-threaded', version: '>= 0.10.3'),
 ]
 
 includes = [

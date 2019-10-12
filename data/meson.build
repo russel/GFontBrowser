@@ -2,7 +2,7 @@
 
 #  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 #
-#  Copyright © 2017, 2018  Russel Winder <russel@winder.org.uk>
+#  Copyright © 2017–2019  Russel Winder <russel@winder.org.uk>
 #
 #  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 #  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +20,7 @@
 prefix = get_option('prefix')
 datadir = get_option('datadir')
 applicationsdir = join_paths(datadir, 'applications')
-pixmapsdir = join_paths(datadir, 'pixmaps')
+iconsdir = join_paths(datadir, 'icons')
 
 conf_data = configuration_data()
 conf_data.set('PREFIX', prefix)
@@ -31,4 +31,5 @@ configure_file(
     install_dir: applicationsdir
 )
 
-install_data('gfontbrowser.png', install_dir: pixmapsdir)
+# install_data('gfontbrowser.png', install_dir: iconsdir)
+install_data('../source/resource/gfontbrowser.svg', install_dir: iconsdir)

@@ -585,7 +585,7 @@ FcCache* FcDirCacheRescan (const(FcChar8)* dir, FcConfig* config);
 
 FcCache* FcDirCacheRead (const(FcChar8)* dir, FcBool force, FcConfig* config);
 
-//FcCache* FcDirCacheLoadFile (const(FcChar8)* cache_file, stat_* file_stat);
+FcCache* FcDirCacheLoadFile (const(FcChar8)* cache_file, stat_t* file_stat);
 
 void FcDirCacheUnload (FcCache* cache);
 
