@@ -256,7 +256,7 @@ enum _FcValueBinding
     FcValueBindingStrong = 1,
     FcValueBindingSame = 2,
     /* to make sure sizeof (FcValueBinding) == 4 even with -fshort-enums */
-    FcValueBindingEnd = int.max
+    FcValueBindingEnd = INT_MAX
 }
 
 alias FcValueBinding = _FcValueBinding;
