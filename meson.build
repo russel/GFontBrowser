@@ -27,9 +27,9 @@ project(
 sources = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT && ls source/*.d').stdout().split()
 
 dependencies = [
-    dependency('gtkd-3', version: '>= 3.8.5'), # 3.9.0 is available but not in Debian yet.
+    dependency('gtkd-3', version: '>= 3.8.5'), # 3.9.0 is available, but not required.
     dependency('fontconfig', version: '>= 2.13.1'),
-    dependency('pangoft2', version: '>= 1.42.3'),  # Should be 1.42.4 but it doesn't work.
+    dependency('pangoft2', version: '>= 1.42.3'),  # Should be 1.42.4.
 ]
 
 test_dependencies = [
