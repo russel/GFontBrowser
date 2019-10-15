@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2013–2014, 2017, 2018  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2013–2014, 2017–2019  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -46,21 +46,8 @@ else {
         Util.setApplicationName(applicationName);
         application.addMainOption("version", 'v', GOptionFlags.NONE, GOptionArg.NONE, "Show the " ~ applicationName ~ " version.", null);
         application.addOnStartup(delegate void(GioApplication app) {
-            auto menuBuilder = new Builder();
-            if (menuBuilder.addFromString(import("application_menu.xml"))) {
-                auto a = cast(Application) app;
-                a.setAppMenu(cast(MenuModel) menuBuilder.getObject("application_menu"));
                 initialise();
-                auto applicationWindow = getApplicationWindow(a);
-                auto aboutAction = new SimpleAction("about", null);
-                aboutAction.addOnActivate(delegate void(_, __){ showAbout(applicationWindow); });
-                a.addAction(aboutAction);
-                auto quitAction = new SimpleAction("quit", null);
-                quitAction.addOnActivate(delegate void(_, __){ a.quit(); });
-                a.addAction(quitAction);
-            } else {
-                throw new Exception("Couldn't get the application menu.");
-            }
+                auto applicationWindow = getApplicationWindow(cast(Application) app);
         });
         application.addOnActivate(delegate void(GioApplication app) {
         });

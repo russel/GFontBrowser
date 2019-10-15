@@ -22,26 +22,32 @@ import std.stdio: writeln;
 
 import core.stdc.stdlib: exit;
 
+import gio.Menu;
+import gio.SimpleAction;
+
 import gtk.Application;
 import gtk.ApplicationWindow;
 import gtk.Builder;
-
 import gtk.Button;
 import gtk.CellRendererText;
 import gtk.EditableIF;
 import gtk.Entry;
+import gtk.HeaderBar;
+import gtk.Image;
 import gtk.ListStore;
+import gtk.MenuButton;
 import gtk.SpinButton;
 import gtk.TreePath;
 import gtk.TreeView;
 import gtk.TreeViewColumn;
+import gtk.c.types: GtkIconSize;
 
 import gdk.Event;
 
+import about: showAbout;
 import configuration: versionNumber;
 import fontCatalogue: getFamilyMap;
-import presentation: PresentationDialog, PresentationListStore, PresentationTreeView,
-onSampleTextChanged, onFontSizeChanged;
+import presentation: PresentationDialog, PresentationListStore, PresentationTreeView, onSampleTextChanged, onFontSizeChanged;
 
 private ApplicationWindow applicationWindow = null;
 private TreeView familyList = null;
@@ -85,6 +91,22 @@ ApplicationWindow getApplicationWindow(Application application) {
         fontSize.addOnValueChanged(delegate void(SpinButton sb) {
             onFontSizeChanged(fontSize.getValue);
         });
+        auto headerBar = new HeaderBar();
+        headerBar.setTitle("GFontBrowser");
+        headerBar.setShowCloseButton(true);
+        auto menuButton = new MenuButton();
+        auto menuButtonImage = new Image();
+        menuButtonImage.setFromIconName("open-menu-symbolic", GtkIconSize.BUTTON);
+        menuButton.setImage(menuButtonImage);
+        auto menuBuilder = new Builder();
+        menuBuilder.addFromString(import("application_menu.xml"));
+        auto applicationMenu = cast(Menu)menuBuilder.getObject("application_menu");
+        auto aboutAction = new SimpleAction("about", null);
+        aboutAction.addOnActivate(delegate void(_, __){ showAbout(applicationWindow); });
+        applicationWindow.addAction(aboutAction);
+        menuButton.setMenuModel(applicationMenu);
+        headerBar.packEnd(menuButton);
+        applicationWindow.setTitlebar(headerBar);
         applicationWindow.setTitle("GFontBrowser");
         applicationWindow.showAll();
     }
