@@ -37,7 +37,7 @@ private AboutDialog create() {
     string[] documentors;
     about.setAuthors(authors);
     about.setComments("A font browser for GTK+, Fontconfig, Pango based system.");
-    about.setCopyright("Copyright \u00a9 2013\u20132014, 2017–2019  Russel Winder <russel@winder.org.uk>");
+    about.setCopyright("Copyright \u00a9 2013–2014, 2017–2019  Russel Winder <russel@winder.org.uk>");
     about.setDocumenters(documentors);
     about.setLicense("This program is licenced under GNU General Public Licence (GPL) version 3.");
     auto loader = new PixbufLoader();
