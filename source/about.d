@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2017–2019  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2017–2020  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -26,7 +26,7 @@ import gdkpixbuf.PixbufLoader;
 import configuration: applicationName, versionNumber;
 
 /**
- * Construct an about dialogue.
+ * Construct an about dialogue specific to GFontBrowser.
  *
  * @return a reference to an about dialogue.
  */
@@ -37,7 +37,7 @@ private AboutDialog create() {
     string[] documentors;
     about.setAuthors(authors);
     about.setComments("A font browser for GTK+, Fontconfig, Pango based system.");
-    about.setCopyright("Copyright \u00a9 2013–2014, 2017–2019  Russel Winder <russel@winder.org.uk>");
+    about.setCopyright("Copyright © 2013–2014, 2017–2020  Russel Winder <russel@winder.org.uk>");
     about.setDocumenters(documentors);
     about.setLicense("This program is licenced under GNU General Public Licence (GPL) version 3.");
     auto loader = new PixbufLoader();
