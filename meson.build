@@ -30,11 +30,11 @@ dependencies = [
     # Versions of dependencies as in Debian Buster (Stable as at 2020-03-10) and later.
     dependency('gtkd-3', version: '>= 3.8.5'), # 3.9.0 is available in Sid, but is not required.
     dependency('fontconfig', version: '>= 2.13.1'),
-    dependency('pangoft2', version: '>= 1.42.3'), # As at 2020-03-10, pc file has wrong version number.
+    dependency('pangoft2', version: '>= 1.42.4'),
 ]
 
 test_dependencies = [
-    dependency('unit-threaded', version: '>= 0.10.7'),
+    dependency('unit-threaded', version: '>= 0.10.8'),
 ]
 
 includes = [
