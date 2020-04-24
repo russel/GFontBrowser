@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2018, 2019  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2018–2020  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -15,10 +15,20 @@
 //
 //  Author:  Russel Winder <russel@winder.org.uk>
 
-import std.string: strip;
+import std.algorithm: map;
+import std.conv: to;
+import std.string: split, strip;
 
 public immutable applicationName = "GFontBrowser";
 public immutable versionNumber = import("VERSION").strip();
+
+unittest {
+    void testVersionNumberVaguelyReasonable() {
+        auto result = versionNumber.split(".");
+        assert(result.length == 3);
+        result.map!((string x) => to!uint(x));
+    }
+}
 
 //  Local Variables:
 //  mode: d
