@@ -37,7 +37,7 @@ configuration "application" {
 configuration "unittest" {
     targetType "executable"
     targetName "gfontbrowser-unit-tests"
-    preBuildCommands "$DUB run --compiler=$$DC unit-threaded -c gen_ut_main -- -f generated/ut_unittest_main.d -d $DUB"
+    preBuildCommands "$DUB run  unit-threaded -c gen_ut_main -- -f generated/ut_unittest_main.d -d $DUB"
     mainSourceFile "generated/ut_unittest_main.d"
     excludedSourceFiles "source/main.d"
     dependency "unit-threaded" version="*"
