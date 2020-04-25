@@ -63,8 +63,10 @@ ApplicationWindow getApplicationWindow(Application application) {
             exit(1);
         }
         applicationWindow = cast(ApplicationWindow) builder.getObject("applicationWindow");
+        assert(applicationWindow !is null);
         application.addWindow(applicationWindow);
         familyList = cast(TreeView)builder.getObject("familyList");
+        assert(familyList !is null);
         auto familyListStore = new ListStore([GType.STRING]);
         auto familyListData = getFamilyMap.keys.sort.array;
         foreach (item; familyListData) {
@@ -84,10 +86,12 @@ ApplicationWindow getApplicationWindow(Application application) {
         });
         presentationList = new PresentationTreeView(cast(TreeView)builder.getObject("presentationList"));
         sampleText = cast(Entry)builder.getObject("sampleText");
+        assert(sampleText !is null);
         sampleText.addOnChanged(delegate void(EditableIF ei) {
             onSampleTextChanged(sampleText.getText);
         });
         fontSize = cast(SpinButton)builder.getObject("fontSize");
+        assert(fontSize !is null);
         fontSize.addOnValueChanged(delegate void(SpinButton sb) {
             onFontSizeChanged(fontSize.getValue);
         });
@@ -101,6 +105,7 @@ ApplicationWindow getApplicationWindow(Application application) {
         auto menuBuilder = new Builder();
         menuBuilder.addFromString(import("application_menu.xml"));
         auto applicationMenu = cast(Menu)menuBuilder.getObject("application_menu");
+        assert(applicationMenu !is null);
         auto aboutAction = new SimpleAction("about", null);
         aboutAction.addOnActivate(delegate void(_, __){ showAbout(applicationWindow); });
         applicationWindow.addAction(aboutAction);
