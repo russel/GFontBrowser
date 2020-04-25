@@ -1,6 +1,6 @@
 # GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 #
-# Copyright © 2018  Russel Winder <russel@winder.org.uk>
+# Copyright © 2018, 2020  Russel Winder <russel@winder.org.uk>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ configuration "application" {
 configuration "unittest" {
     targetType "executable"
     targetName "gfontbrowser-unit-tests"
-    preBuildCommands "$DUB run  unit-threaded -c gen_ut_main -- -f generated/ut_unittest_main.d -d $DUB"
+    preBuildCommands "$DUB run --compiler=$$DC unit-threaded -c gen_ut_main -- -f generated/ut_unittest_main.d -d $DUB"
     mainSourceFile "generated/ut_unittest_main.d"
     excludedSourceFiles "source/main.d"
     dependency "unit-threaded" version="*"
