@@ -22,12 +22,11 @@ import std.string: split, strip;
 public immutable applicationName = "GFontBrowser";
 public immutable versionNumber = import("VERSION").strip();
 
+@("versionNumberIsVaguelyReasonable")
 unittest {
-    void testVersionNumberVaguelyReasonable() {
-        auto result = versionNumber.split(".");
-        assert(result.length == 3);
-        result.map!((string x) => to!uint(x));
-    }
+    auto result = versionNumber.split(".");
+    assert(result.length == 3);
+    result.map!((string x) => to!uint(x));
 }
 
 //  Local Variables:
