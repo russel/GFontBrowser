@@ -20,7 +20,7 @@
 project(
     'GFontBrowser',
     'd',
-    version: '0.1.0',
+    version: '0.1.0',  # Ensure this is the same as in ./VERSION
     default_options: ['buildtype=release'],
 )
 
@@ -34,7 +34,7 @@ dependencies = [
 ]
 
 test_dependencies = [
-    dependency('unit-threaded', version: '>= 0.10.8'),
+    dependency('unit-threaded', version: '>= 1.0.2'),
 ]
 
 includes = [
@@ -72,6 +72,7 @@ testExecutable = executable(
     d_args: d_args + ['-unittest'],
     link_args: link_args + ['-main'],
     build_by_default: false,
+    override_options: ['unity=on'] # Doesn't work as at 2020-06-04. :-(
 )
 
 test('all tests', testExecutable)

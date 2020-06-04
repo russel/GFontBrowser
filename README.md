@@ -11,6 +11,12 @@ assumed to be one on which GTK+3, Fontconfig, and Pango are installed.
 This application was originally to solve a fonts browsing problem I had that no GNOME tool solved (there
 still isn't), and it serves that purpose – though it could be improved a lot.
 
+## Using GFontBrowser
+
+Here is an image of the main window with a font selected:
+
+![Main window with typeface selected](data/screenshots/main_only.png)
+
 ## Building for Yourself
 
 The de facto build system for D programs is [Dub](https://github.com/dlang/dub) and so there is a Dub build

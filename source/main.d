@@ -31,12 +31,12 @@ import gtk.Builder;
 
 import about: showAbout;
 import applicationWindow: getApplicationWindow;
-import configuration: applicationName, versionNumber;
+import configuration: applicationName, applicationId, versionNumber;
 import fontCatalogue: initialise;
 
 int main(string[] args) {
     //auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.HANDLES_COMMAND_LINE);
-    auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.FLAGS_NONE);
+    auto application = new Application(applicationId, GApplicationFlags.FLAGS_NONE);
     Util.setApplicationName(applicationName);
     application.addMainOption("version", 'v', GOptionFlags.NONE, GOptionArg.NONE, "Show the " ~ applicationName ~ " version.", null);
     application.addOnStartup(delegate void(GioApplication app) {

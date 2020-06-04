@@ -23,7 +23,7 @@ import gtk.Window;
 import gdk.Pixbuf;
 import gdkpixbuf.PixbufLoader;
 
-import configuration: applicationName, versionNumber;
+import configuration: applicationName, applicationId, versionNumber;
 
 /**
  * Construct an about dialogue specific to GFontBrowser.
@@ -42,7 +42,7 @@ private AboutDialog create() {
     about.setLicense("This program is licenced under GNU General Public Licence (GPL) version 3.");
     auto loader = new PixbufLoader();
     loader.setSize(180, 147);
-    loader.write(cast(char[]) import("gfontbrowser.svg"));
+    loader.write(cast(char[]) import(applicationId ~ ".svg"));
     loader.close();
     about.setLogo(loader.getPixbuf());
     about.setName(applicationName);

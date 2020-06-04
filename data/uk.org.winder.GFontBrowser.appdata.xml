@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2020  Russel Winder <russel@winder.org.uk> -->
+<component type="desktop">
+  <id>uk.org.winder.GFontBrowser</id>
+  <launchable type="desktop">uk.org.winder.GFontBrowser</launchable>
+  <metadata_license>CC-BY-3.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <name>GFontBrowser</name>
+  <summary>Display fonts available to the user</summary>
+  <description>
+    <p>
+      GFontBroswer is a  GTK+, Fontconfig, Pango based browser of fonts. GFontBrowser is
+      developed in D.
+    </p>
+  </description>
+  <update_contact>russel@winder.org.uk</update_contact>
+  <developer_name>Russel Winder</developer_name>
+  <url type="homepage">https://github.com/russel/GFontBrowser</url>
+  <screenshots>
+    <screenshot>
+      <image>https://github.com/russel/GFontBrowser/raw/master/screenshot.png</image>
+      <caption>GFontBrowser displaying a selected font.</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release>
+    </release>
+  </releases>
+</component>

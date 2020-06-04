@@ -20,6 +20,7 @@ import std.conv: to;
 import std.string: split, strip;
 
 public immutable applicationName = "GFontBrowser";
+public immutable applicationId = "uk.org.winder.GFontBrowser";
 public immutable versionNumber = import("VERSION").strip();
 
 @("versionNumberIsVaguelyReasonable")

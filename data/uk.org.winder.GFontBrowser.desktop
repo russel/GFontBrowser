@@ -1,10 +1,10 @@
 [Desktop Entry]
-Type=Application
-Encoding=UTF-8
 Name=GFontBrowser
 Comment=A font browser for GTK+, Fontconfig, Pango based systems.
-Exec=gfontbrowser %U
-Icon=gfontbrowser
+Type=Application
+Encoding=UTF-8
+Exec=gfontbrowser %D
+Icon=uk.org.winder.GFontBrowser.svg
 Terminal=false
 StartupNotify=true
-Categories=GTK;font
+Categories=GTK;font;typeface

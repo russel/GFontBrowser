@@ -1,6 +1,6 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2013–2014, 2017–2019  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2013–2014, 2017–2020  Russel Winder <russel@winder.org.uk>
 //
 //  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
 //  General Public License as published by the Free Software Foundation, either version 3 of the License, or
@@ -45,7 +45,7 @@ import gtk.c.types: GtkIconSize;
 import gdk.Event;
 
 import about: showAbout;
-import configuration: versionNumber;
+import configuration: applicationName, applicationId, versionNumber;
 import fontCatalogue: getFamilyMap;
 import presentation: PresentationDialog, PresentationListStore, PresentationTreeView, onSampleTextChanged, onFontSizeChanged;
 
@@ -58,7 +58,7 @@ private SpinButton fontSize = null;  // Access needed by presentation module.
 ApplicationWindow getApplicationWindow(Application application) {
     if (applicationWindow is null) {
         auto builder = new Builder();
-        if (!builder.addFromString(strip(import("gfontbrowser.glade")))) {
+        if (!builder.addFromString(strip(import(applicationId ~ ".glade")))) {
             writeln("Could not create widgets from the Glade file :-(");
             exit(1);
         }
@@ -96,7 +96,7 @@ ApplicationWindow getApplicationWindow(Application application) {
             onFontSizeChanged(fontSize.getValue);
         });
         auto headerBar = new HeaderBar();
-        headerBar.setTitle("GFontBrowser");
+        headerBar.setTitle(applicationName);
         headerBar.setShowCloseButton(true);
         auto menuButton = new MenuButton();
         auto menuButtonImage = new Image();
@@ -112,7 +112,7 @@ ApplicationWindow getApplicationWindow(Application application) {
         menuButton.setMenuModel(applicationMenu);
         headerBar.packEnd(menuButton);
         applicationWindow.setTitlebar(headerBar);
-        applicationWindow.setTitle("GFontBrowser");
+        applicationWindow.setTitle(applicationName);
         applicationWindow.showAll();
     }
     return applicationWindow;
