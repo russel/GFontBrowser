@@ -1,10 +1,8 @@
 image: ubuntu:bionic
 
 before_script:
-  - uname -a
-  - echo "deb http://netcologne.dl.sourceforge.net/project/d-apt/ d-apt main" > /etc/apt/sources.list.d/d-apt
   - apt-get -qq update
-  - apt-get install -y dub libgtk-3-0 libfontconfig1 libpango1.0
+  - apt-get install -y dub ldc gdc libgtk-3-0 libfontconfig1 libpango1.0
 
 run-test:
   script:
