@@ -25,7 +25,7 @@ public immutable versionNumber = import("VERSION").strip();
 
 @("versionNumberIsVaguelyReasonable")
 unittest {
-    auto result = versionNumber.split(".");
+    immutable result = versionNumber.split(".");
     assert(result.length == 3);
     result.map!((string x) => to!uint(x));
 }
