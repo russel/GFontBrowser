@@ -1,5 +1,3 @@
-# -*- mode: python; coding: utf-8; -*-
-
 # GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 #
 # Copyright © 2018–2020  Russel Winder <russel@winder.org.uk>
@@ -24,7 +22,33 @@ project(
     default_options: ['buildtype=release'],
 )
 
-sources = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT && ls source/*.d').stdout().split()
+test_module_names = [
+    'about',
+    'applicationWindow',
+    'configuration',
+    'fontCatalogue',
+    'presentation',
+]
+
+sources = []
+foreach m: test_module_names
+    sources += 'source/' + m + '.d'
+endforeach
+sources += [
+  'source/main.d',
+  'generated/fontconfig.d', # Does not seem to matter if this one is present, not sure why.
+]
+
+ut_meson_main = configure_file(
+    input: 'data/ut_meson_main.d.in',
+    output: 'ut_meson_main.d',
+    configuration: {'TEST_MODULE_NAME_LIST': '"' + '", "'.join(test_module_names) + '"'},
+)
+
+test_sources = [ut_meson_main]
+foreach m: test_module_names
+    test_sources += 'source/' + m + '.d'
+endforeach
 
 dependencies = [
     # Versions of dependencies as in Debian Buster (Stable as at 2020-03-10) and later.
@@ -60,19 +84,15 @@ executable(
     install: true,
 )
 
-# Switched to using unit-threaded which requires unity builds
-# but Meson doesn't support unity builds for D yet, so no tests
-# ever get run.
-
 testExecutable = executable(
     'gfontbrowser-test',
-    sources,
+    test_sources,
     dependencies: dependencies + test_dependencies,
     include_directories: includes,
     d_args: d_args + ['-unittest'],
-    link_args: link_args + ['-main'],
+    link_args: link_args,
     build_by_default: false,
-    override_options: ['unity=on'] # Doesn't work as at 2020-06-04. :-(
+    override_options: ['unity=on'] # Doesn't work as at 2020-06-04. Uses separate build. :-(
 )
 
 test('all tests', testExecutable)
