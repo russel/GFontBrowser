@@ -1,7 +1,7 @@
 # GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 
 GitLab CI: [![GitLab CI/CD](https://gitlab.org/Russel/gfontbrowser/badges/master/pipeline.svg)](https://travis-ci.org/Russel/gfontbrowser)
-&nbsp;&nbsp;&ndsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
 Travis-CI: [![Travis-CI](https://travis-ci.org/russel/GFontBrowser.svg?branch=master)](https://travis-ci.org/russel/GFontBrowser)
 
 Licence: [![Licence](https://img.shields.io/badge/license-GPL_3-green.svg)](https://www.gnu.org/licenses/gpl-3.0.txt)
