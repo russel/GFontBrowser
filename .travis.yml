@@ -1,11 +1,11 @@
 language: d
 sudo: true
-dist: xenial
+dist: bionic
 
 d:
-  # - dmd # Link failure
+  - dmd
   - ldc
-  # - gdc # Uses gdc 4.8.5 which is just too old.
+  - gdc
 
 before_script:
   - sudo apt-get -qq update
