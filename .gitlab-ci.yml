@@ -1,3 +1,5 @@
+image: bionic
+
 before_script:
   - sudo echo "deb http://netcologne.dl.sourceforge.net/project/d-apt/ d-apt main" > /etc/apt/source.list.d/d-apt
   - sudo apt-get -qq update
