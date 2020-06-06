@@ -3,9 +3,9 @@ sudo: true
 dist: bionic
 
 d:
-  - dmd
+  # - dmd # Compilation fail over _D10fontconfig8_FcValue6__initZ in fontCatalogue.d:79
   - ldc
-  - gdc
+  # - gdc # Tries to use gdc 4.8.5 which is too old.
 
 before_script:
   - sudo apt-get -qq update
