@@ -1,7 +1,7 @@
 image: ubuntu:bionic
 
 before_script:
-  - sudo echo "deb http://netcologne.dl.sourceforge.net/project/d-apt/ d-apt main" > /etc/apt/source.list.d/d-apt
+  - sudo echo "deb http://netcologne.dl.sourceforge.net/project/d-apt/ d-apt main" > /etc/apt/sources.list.d/d-apt
   - sudo apt-get -qq update
   - sudo apt-get install -y dub libgtk-3-0 libfontconfig1 libpango1.0
 
