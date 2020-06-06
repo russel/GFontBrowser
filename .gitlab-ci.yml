@@ -1,0 +1,8 @@
+before_script:
+  - sudo echo "deb http://netcologne.dl.sourceforge.net/project/d-apt/ d-apt main" > /etc/apt/source.list.d/d-apt
+  - sudo apt-get -qq update
+  - sudo apt-get install -y dub libgtk-3-0 libfontconfig1 libpango1.0
+
+run-test:
+  script:
+    - dub test
