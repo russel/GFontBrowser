@@ -1,9 +1,12 @@
 image: ubuntu:focal
 
 before_script:
+  - export DEBIAN_FRONTEND=noninteractive
+  - export DUB=/usr/bin/dub
+  - export TZ=Europe/London
   - apt-get -qq update
   - apt-get install -y dub ldc gdc libgtk-3-0 libfontconfig1 libpango1.0
 
 run-test:
   script:
-    - export DUB=/usr/bin/dub && dub test --compiler=ldc2
+    - dub test --compiler=ldc2
