@@ -6,4 +6,4 @@ before_script:
 
 run-test:
   script:
-    - dub test --compiler=ldc2
+    - export DUB=/usr/bin/dub && dub test --compiler=ldc2
