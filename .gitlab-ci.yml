@@ -6,7 +6,7 @@ before_script:
   - export TZ=Europe/London
   - apt-get -qq update
   - apt-get install -y dub ldc gdc libgtk-3-0 libfontconfig1 libpango1.0
-  - update-alternatives --set cc /usr/bin/gcc
+  - update-alternatives --install /usr/bin/cc cc /usr/bin/gcc
 
 run-test:
   script:
