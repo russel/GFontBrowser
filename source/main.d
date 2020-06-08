@@ -29,7 +29,6 @@ import glib.VariantDict;
 import gtk.Application;
 import gtk.Builder;
 
-import about: showAbout;
 import applicationWindow: getApplicationWindow;
 import configuration: applicationName, applicationId, versionNumber;
 import fontCatalogue: initialise;

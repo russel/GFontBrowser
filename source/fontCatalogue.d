@@ -70,8 +70,8 @@ private void processDirectoryEntry(FcChar8 * directoryName) {
     if (! directoryFontSet) { throw new Exception("Failed to create the font set for: " ~ dirName); }
     auto subdirectorySet = FcStrSetCreate();
     if (! subdirectorySet) { throw new Exception("Failed to create the subdirectory names set for directory: " ~ dirName); }
-    //  TODO: Although this allows us to get the list of faces in the directory, it doesn't put them in the
-    //  list that can be rendered; this should be fixed.
+    //  TODO Although this allows us to get the list of faces in the directory, it doesn't put
+    //     them in the list that can be rendered; this should be fixed.
     auto returnCode = FcDirScan(directoryFontSet, subdirectorySet, null, FcConfigGetBlanks(configuration), directoryName, FcTrue);
     if (returnCode == FcFalse) { throw new Exception("Failed to scan directories with FcDirScan: " ~ dirName); }
     for (auto i = 0; i < directoryFontSet.nfont; ++i) {
