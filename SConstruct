@@ -36,18 +36,16 @@ pangoft2_flags, pangoft2_libs = get_pkgconfig_data('pangoft2')
 dependency_flags = gtk_flags + fontconfig_flags + pangoft2_flags
 dependency_libs = dmd_style_link_flags(gtk_libs) + dmd_style_link_flags(fontconfig_libs) + dmd_style_link_flags(pangoft2_libs)
 
-dependency_flags.remove('-pthread') # ldc2 really doesn't like this option introduce into the gtk_flags.
+# Two copies of the option -pthread get added to the flags, ldc2 really doesn't like this option at all.
+dependency_flags.remove('-pthread')
+dependency_flags.remove('-pthread')
 
 unitthreaded_flags, unitthreaded_libs = get_pkgconfig_data('unit-threaded')
 unitthreaded_libs = dmd_style_link_flags(unitthreaded_libs)
 
-# Need the -Wl,--export-dynamic option to the linker to avoid the
-# "Could not find signal handler XXXX.  Did you compile with -rdynamic?"
-# problem at run time.
-
 environment =  Environment(
     tools=['ldc', 'link'],
-    #DFLAGS=['-g', '-gc', '-d-debug', '-J.', '-Jsource/resource'],
+    #DFLAGS=['-g', '-gc', '-d-debug', '-J.', '-Jsource/resource'] + dependency_flags,
     DFLAGS=['-O', '-release', '-J.', '-Jsource/resource'] + dependency_flags,
     DLINKFLAGS=['-link-defaultlib-shared'] + dependency_libs,
     ENV=os.environ,
