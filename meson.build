@@ -20,6 +20,11 @@ project(
     default_options: ['buildtype=release'],
 )
 
+prefix = get_option('prefix')
+datadir = get_option('datadir')
+
+application_id = 'uk.org.winder.GFontBrowser'
+
 test_module_names = [
     'about',
     'applicationWindow',
@@ -95,5 +100,19 @@ testExecutable = executable(
 
 test('all tests', testExecutable)
 
-subdir('data')
-subdir('doc')
+install_man('doc/gfontbrowser.1')
+
+install_data(
+    'source/resource/@0@.svg'.format(application_id),
+    install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+)
+
+install_data(
+    'data/@0@.desktop'.format(application_id),
+    install_dir: datadir / 'applications'
+)
+
+install_data(
+    'data/@0@.appdata.xml'.format(application_id),
+    install_dir: datadir / 'appdata'
+)
