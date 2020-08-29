@@ -14,10 +14,10 @@
 #  If not, see <http://www.gnu.org/licenses/>.
 
 project(
-    'GFontBrowser',
-    'd',
-    version: '0.1.0',  # Ensure this is the same as in ./VERSION
-    default_options: ['buildtype=release'],
+  'GFontBrowser',
+  'd',
+  version: '0.1.0',  # Ensure this is the same as in ./VERSION
+  default_options: ['buildtype=release'],
 )
 
 prefix = get_option('prefix')
@@ -26,16 +26,16 @@ datadir = get_option('datadir')
 application_id = 'uk.org.winder.GFontBrowser'
 
 test_module_names = [
-    'about',
-    'applicationWindow',
-    'configuration',
-    'fontCatalogue',
-    'presentation',
+  'about',
+  'applicationWindow',
+  'configuration',
+  'fontCatalogue',
+  'presentation',
 ]
 
 sources = []
 foreach m: test_module_names
-    sources += 'source/' + m + '.d'
+  sources += 'source/' + m + '.d'
 endforeach
 sources += [
   'source/main.d',
@@ -43,59 +43,59 @@ sources += [
 ]
 
 ut_meson_main = configure_file(
-    input: 'data/ut_meson_main.d.in',
-    output: 'ut_meson_main.d',
-    configuration: {'TEST_MODULE_NAME_LIST': '"' + '", "'.join(test_module_names) + '"'},
+  input: 'data/ut_meson_main.d.in',
+  output: 'ut_meson_main.d',
+  configuration: {'TEST_MODULE_NAME_LIST': '"' + '", "'.join(test_module_names) + '"'},
 )
 
 test_sources = [ut_meson_main]
 foreach m: test_module_names
-    test_sources += 'source/' + m + '.d'
+  test_sources += 'source/' + m + '.d'
 endforeach
 
 dependencies = [
-    # Versions of dependencies as in Debian Buster (Stable as at 2020-03-10) and later.
-    dependency('gtkd-3', version: '>= 3.8.5'), # 3.9.0 is available in Sid, but is not required.
-    dependency('fontconfig', version: '>= 2.13.1'),
-    dependency('pangoft2', version: '>= 1.42.4'),
+  # Versions of dependencies as in Debian Buster (Stable as at 2020-03-10) and later.
+  dependency('gtkd-3', version: '>= 3.8.5'), # 3.9.0 is available in Sid, but is not required.
+  dependency('fontconfig', version: '>= 2.13.1'),
+  dependency('pangoft2', version: '>= 1.42.4'),
 ]
 
 test_dependencies = [
-    dependency('unit-threaded', version: '>= 1.0.2'),
+  dependency('unit-threaded', version: '>= 1.0.2'),
 ]
 
 includes = [
-    include_directories('source'),
-    include_directories('generated'),
+  include_directories('source'),
+  include_directories('generated'),
 ]
 
 d_args = [
-    '-J' + meson.current_source_dir(),
-    '-J' + meson.current_source_dir() + '/source/resource',
+  '-J' + meson.current_source_dir(),
+  '-J' + meson.current_source_dir() + '/source/resource',
 ]
 
 link_args = [
 ]
 
 executable(
-    'gfontbrowser',
-    sources,
-    dependencies: dependencies,
-    include_directories: includes,
-    d_args: d_args,
-    link_args: link_args,
-    install: true,
+  'gfontbrowser',
+  sources,
+  dependencies: dependencies,
+  include_directories: includes,
+  d_args: d_args,
+  link_args: link_args,
+  install: true,
 )
 
 testExecutable = executable(
-    'gfontbrowser-test',
-    test_sources,
-    dependencies: dependencies + test_dependencies,
-    include_directories: includes,
-    d_args: d_args + ['-unittest'],
-    link_args: link_args,
-    build_by_default: false,
-    # override_options: ['unity=on'] # Doesn't work as at 2020-08-26. Uses separate build. :-(
+  'gfontbrowser-test',
+  test_sources,
+  dependencies: dependencies + test_dependencies,
+  include_directories: includes,
+  d_args: d_args + ['-unittest'],
+  link_args: link_args,
+  build_by_default: false,
+  # override_options: ['unity=on'] # Doesn't work as at 2020-08-26. Uses separate build. :-(
 )
 
 test('all tests', testExecutable)
@@ -103,16 +103,21 @@ test('all tests', testExecutable)
 install_man('doc/gfontbrowser.1')
 
 install_data(
-    'source/resource/@0@.svg'.format(application_id),
-    install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+  'source/resource/@0@.svg'.format(application_id),
+  install_dir: datadir / 'icons' / 'hicolor' / 'scalable' / 'apps'
+)
+
+#install_data(
+#  'data/@0@.png'.format(application_id),
+#  install_dir: datadir / 'icons' / 'hicolor' / '48x48' / 'apps'
+#)
+
+install_data(
+  'data/@0@.desktop'.format(application_id),
+  install_dir: datadir / 'applications'
 )
 
 install_data(
-    'data/@0@.desktop'.format(application_id),
-    install_dir: datadir / 'applications'
-)
-
-install_data(
-    'data/@0@.appdata.xml'.format(application_id),
-    install_dir: datadir / 'appdata'
+  'data/@0@.appdata.xml'.format(application_id),
+  install_dir: datadir / 'appdata'
 )
