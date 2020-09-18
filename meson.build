@@ -61,7 +61,7 @@ dependencies = [
 ]
 
 test_dependencies = [
-  dependency('unit-threaded', version: '>= 1.0.2'),
+  dependency('unit-threaded'),  # Whatever version is available, it must be provided locally.
 ]
 
 includes = [
