@@ -2,16 +2,16 @@
 //
 //  Copyright © 2013–2014, 2017–2020  Russel Winder <russel@winder.org.uk>
 //
-//  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
-//  General Public License as published by the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify it under the terms of
+//  the GNU General Public License as published by the Free Software Foundation, either version
+//  3 of the License, or (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
-//  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-//  License for more details.
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//  See the GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along with this program.  If not, see
-//  <http://www.gnu.org/licenses/>.
+//  You should have received a copy of the GNU General Public License along with this program.
+//  If not, see <http://www.gnu.org/licenses/>.
 //
 //  Author:  Russel Winder <russel@winder.org.uk>
 
@@ -31,15 +31,26 @@ import gtk.Builder;
 
 import applicationWindow: getApplicationWindow;
 import configuration: applicationName, applicationId, versionNumber;
-import fontCatalogue: initialise;
+import fontCatalogue: initialise_default;
 
+/**
+ * The entry point for the application – statin' the bleedin' obvious :-) .
+ *
+ * Handles a command line version request (-v,--version) as a local option or opens the
+ * application window.
+ *
+ * Params:
+ *     args = the command line arguments as per any application.
+ *
+ * Returns: 0 for success, non-0 for failure.
+ */
 int main(string[] args) {
     //auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.HANDLES_COMMAND_LINE);
     auto application = new Application(applicationId, GApplicationFlags.FLAGS_NONE);
     Util.setApplicationName(applicationName);
     application.addMainOption("version", 'v', GOptionFlags.NONE, GOptionArg.NONE, "Show the " ~ applicationName ~ " version.", null);
     application.addOnStartup(delegate void(GioApplication app) {
-        initialise();
+        initialise_default();
         auto applicationWindow = getApplicationWindow(cast(Application) app);
     });
     application.addOnActivate(delegate void(GioApplication app) {

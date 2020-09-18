@@ -1,17 +1,17 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2018  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2018, 2020  Russel Winder <russel@winder.org.uk>
 //
-//  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
-//  General Public License as published by the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify it under the terms of
+//  the GNU General Public License as published by the Free Software Foundation, either version
+//  3 of the License, or (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
-//  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-//  License for more details.
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//  See the GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along with this program.  If not, see
-//  <http://www.gnu.org/licenses/>.
+//  You should have received a copy of the GNU General Public License along with this program.
+//  If not, see <http://www.gnu.org/licenses/>.
 //
 //  Author:  Russel Winder <russel@winder.org.uk>
 
@@ -38,14 +38,21 @@ import fontCatalogue: getFamilyMap, getFontStyle, getFontFileName, getFontDescri
 
 private PresentationTreeView[] registry;
 
+/**
+ * Enumeration over the column numbers of the `PresentationListStore` which is the
+ * data model for rendering the sample text in all the `PresentationTreeView`s
+ */
 enum ColumnNumber {
-    style,
+    style, // = 0
     visibility,
     sampleText,
     fontFilePath,
     fontDescription,
 }
 
+/**
+ * Class to represent the data model for rendering a typeface and it's fonts.
+ */
 class PresentationListStore: ListStore {
     this(string familyName, string sampleText, double fontSize) {
         super([
@@ -68,6 +75,9 @@ class PresentationListStore: ListStore {
     }
 }
 
+/**
+ * Class to represent the renderer of a typeface and it's fonts.
+ */
 class PresentationTreeView: TreeView {
     private void initialise() {
         appendColumn(new TreeViewColumn("Font Style", new CellRendererText(), "text", ColumnNumber.style));
@@ -105,6 +115,9 @@ class PresentationTreeView: TreeView {
     }
 }
 
+/**
+ * Class for a dialogue rendering a typeface and it's fonts.
+ */
 class PresentationDialog: Dialog {
     this(ApplicationWindow parent, string familyName, string sampleText, double fontSize) {
         super(applicationName ~ " — " ~ familyName, parent, DialogFlags.DESTROY_WITH_PARENT, cast(string[])null, null);
@@ -115,6 +128,13 @@ class PresentationDialog: Dialog {
     }
 }
 
+/**
+ * Event handler for any change in the sample text of the application window.
+ *
+ * Params:
+ *     newSize = the new sample test to render in all the `PresentationTreeView` instances
+ *       by iterating over all the `PresentationListStore` instances.
+ */
 void onSampleTextChanged(string newText) {
     foreach(view; registry){
         auto model = cast(ListStore)view.getModel;
@@ -127,6 +147,14 @@ void onSampleTextChanged(string newText) {
     }
 }
 
+/**
+ * Event handler for any change in the sample font size of the application window.
+ *
+ * Params:
+ *     newSize = the new font size (in points) to render all the sample texts in all the
+ *       `PresentationTreeView` instances by iterating over all the `PresentationListStore`
+ *       instances.
+ */
 void onFontSizeChanged(double newSize) {
     foreach(view; registry){
         auto model = cast(ListStore)view.getModel;

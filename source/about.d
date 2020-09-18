@@ -2,16 +2,16 @@
 //
 //  Copyright © 2017–2020  Russel Winder <russel@winder.org.uk>
 //
-//  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
-//  General Public License as published by the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify it under the terms of
+//  the GNU General Public License as published by the Free Software Foundation, either version
+//  3 of the License, or (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
-//  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-//  License for more details.
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+//  See the GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along with this program.  If not, see
-//  <http://www.gnu.org/licenses/>.
+//  You should have received a copy of the GNU General Public License along with this program.
+//  If not, see <http://www.gnu.org/licenses/>.
 //
 //  Author:  Russel Winder <russel@winder.org.uk>
 
@@ -26,9 +26,9 @@ import gdkpixbuf.PixbufLoader;
 import configuration: applicationName, applicationId, versionNumber;
 
 /**
- * Construct an about dialogue specific to GFontBrowser.
+ * Construct the GFontBrowser `AboutDialog`.
  *
- * @return a reference to an about dialogue.
+ * Returns: a reference to the `AboutDialog`.
  */
 private AboutDialog create() {
     auto about = new AboutDialog();
@@ -53,9 +53,11 @@ private AboutDialog create() {
 }
 
 /**
- * Show an about dialogue in a non-modal way unless one is already being displayed.
+ * Show the GFontBrowser `AboutDialog` in a non-modal way and return, unless one is already
+ * being displayed in which case just return.
  *
- * @param window the temporary parent of the about dialogue.
+ * Params:
+ *     parent = the (temporary) parent of the `AboutDialogue`.
  */
 public void showAbout(Window parent) {
     static bool active = false;

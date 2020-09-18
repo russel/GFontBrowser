@@ -1,17 +1,17 @@
 //  GFontBrowser — A font browser for GTK+, Fontconfig, Pango based systems.
 //
-//  Copyright © 2018, 2019  Russel Winder <russel@winder.org.uk>
+//  Copyright © 2018–2020  Russel Winder <russel@winder.org.uk>
 //
-//  This program is free software: you can redistribute it and/or modify it under the terms of the GNU
-//  General Public License as published by the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
+//  This program is free software: you can redistribute it and/or modify it under the terms of
+//  the GNU General Public License as published by the Free Software Foundation, either version
+//  3 of the License, or (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
-//  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
-//  License for more details.
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//  PURPOSE. See the GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along with this program. If not, see
-//  <http://www.gnu.org/licenses/>.
+//  You should have received a copy of the GNU General Public License along with this
+//  program. If not, see <http://www.gnu.org/licenses/>.
 
 import std.conv: to;
 import std.file: exists;
@@ -21,32 +21,40 @@ import pango.PgFontDescription;
 
 import fontconfig;
 
-//  It appears that GtkD assumes that Fontconfig is totally hidden by Pango and so does not give D style
-//  access to the Fontconfig pattern to Pango font description parser. GtkD Pango binding similarly does not
-//  expose functions that explicitly manipulate Fontconfig patterns. Of course Pango does have this function
-//  so we can make use of it rather than trying to write our own.
-//
-//  However, the parser seems to have a problem with PostScript Type fonts called Book which it renders as
-//  Bold.
+//  It appears that GtkD assumes that Fontconfig is totally hidden by Pango and so does not give
+//  D style access to the Fontconfig pattern to Pango font description parser. GtkD Pango
+//  binding similarly does not expose functions that explicitly manipulate Fontconfig
+//  patterns. Of course Pango does have this function so we can make use of it rather than
+//  trying to write our own. However, the parser seems to have a problem with PostScript Type
+//  fonts called Book which it renders as Bold.
 
 extern(C) {
     PangoFontDescription * pango_fc_font_description_from_pattern(FcPattern * pattern, bool include_size);
 }
 
 /**
- *  The default configuration used by Fontconfig.
+ * The default configuration used by Fontconfig.
  */
 private FcConfig * configuration;
 
+/**
+ * Type name for the associative array (aka map) that maps typeface names to
+ * an array of patterns for available fonts of that typeface.
+ */
 alias FamilyMap = FcPattern*[][string];
 
 /**
- *  An index into an <code>FcFontSet</code> that collects together all the styles associated with a given
- *  family. The value used is a pointer into the data, this data structure does not own the data.
+ * An index into an `FcFontSet` that collects together all the styles associated with
+ * a given family. The value used is a pointer into the data, this data structure does
+ * not own the data.
  */
 private FamilyMap familyMap;
 
-void initialise() {
+/**
+ * Initialise the application using the standard set of user fonts as provided by
+ * Fontconfig.
+ */
+void initialise_default() {
     configuration = FcInitLoadConfigAndFonts();
     if (! configuration) { throw new Exception("Cannot initialize Fontconfig library."); }
     auto fcFontSet = FcConfigGetFonts(configuration, FcSetName.FcSetSystem);
@@ -57,12 +65,24 @@ void initialise() {
     }
 }
 
+/**
+ * Process all the directories in a directory list.
+ *
+ * Params:
+ *     directoryList = iterator over the list of directories.
+ */
 private void processDirectoryList(FcStrList * directoryList) {
     for (auto directoryName = FcStrListNext(directoryList); directoryName; directoryName = FcStrListNext(directoryList)) {
         processDirectoryEntry(directoryName);
     }
 }
 
+/**
+ * Process a given directory.
+ *
+ * Params:
+ *     directoryName = path to the directory to process.
+ */
 private void processDirectoryEntry(FcChar8 * directoryName) {
     auto dirName = to!string(directoryName);
     if (! dirName.exists) { return; }
@@ -90,7 +110,13 @@ private void processDirectoryEntry(FcChar8 * directoryName) {
     //  which would sort of ruin the whole application.
 }
 
-void initialize(string[] directories) {
+/**
+ * Initialise the application using the fonts in an array of directories.
+ *
+ * Params:
+ *     directories = array of paths to directories containing font files.
+ */
+void initialise_explicit(string[] directories) {
     configuration = null;
     auto directorySet = FcStrSetCreate();
     if (! directorySet) { throw new Exception("Directory set has not been made."); }
@@ -103,9 +129,22 @@ void initialize(string[] directories) {
     FcStrListDone(directoryList);
 }
 
+/**
+ * Getter of the associative array (aka map) that maps typeface names to an
+ * array of font patterns for that typeface.
+ */
 FamilyMap * getFamilyMap() { return &familyMap; }
 
-string getStringProperty(string property, FcPattern * pattern) {
+/**
+ * Getter for a property of a font.
+ *
+ * Params:
+ *     property = string key for the property required.
+ *     pattern = the pattern for the font being queried.
+ *
+ * Returns: `string` value of the property requested.
+ */
+private string getStringProperty(string property, FcPattern * pattern) {
     FcChar8 * returnValue;
     if (FcPatternGetString(pattern, cast(char*)property.toStringz, 0, &returnValue) != FcResult.FcResultMatch) {
         throw new Exception("Failed to find the string property: " ~ property);
@@ -113,16 +152,60 @@ string getStringProperty(string property, FcPattern * pattern) {
     return to!string((cast(char*)returnValue).fromStringz);
 }
 
+/**
+ * Getter for the typeface name (aka font family name) of a font.
+ *
+ * Params:
+ *     pattern = the pattern for the font being queried.
+  *
+ * Returns: `string` of the typeface name.
+*/
 string getFontFamily(FcPattern * pattern) { return getStringProperty(FC_FAMILY, pattern); }
 
+/**
+ * Getter for the style of a font.
+ *
+ * Params:
+ *     pattern = the pattern for the font being queried.
+  *
+ * Returns: `string` of the style of the font.
+*/
 string getFontStyle(FcPattern * pattern) { return getStringProperty(FC_STYLE, pattern); }
 
+/**
+ * Getter for the path to the file of a font.
+ *
+ * Params:
+ *     pattern = the pattern for the font being queried.
+  *
+ * Returns: `string` of the path to the font file.
+*/
 string getFontFileName(FcPattern * pattern) { return getStringProperty(FC_FILE, pattern); }
 
+/**
+ * Getter for the Pango font description of a font given a FontConfig pattern.
+ *
+ * Params:
+ *     pattern = the pattern for the font being queried.
+  *
+ * Returns: `PgFontDescription` of the font requested.
+*/
 PgFontDescription getFontDescription(FcPattern * pattern) {
     return new PgFontDescription(pango_fc_font_description_from_pattern(pattern, false), false);
 }
 
+/**
+ * Getter for the visibility of a font.
+ *
+ * When using `initialise_default` all fonts should be visible. When using
+ * `initialise_explicit` some fonts may be in the default set and thus visible, some
+ * fonts may not be in the default set and so not visible.
+ *
+ * Params:
+ *     pattern = the pattern for the font being queried.
+  *
+ * Returns: `bool` value of the visibility of the font.
+*/
 bool isVisible(FcPattern * pattern) {
 
     return true; ////////////////////////////////////////////////////////////////////////////////////////////////////////////
