@@ -24,7 +24,7 @@ licence  "GPL-3.0"
 importPaths "source" "generated"
 stringImportPaths "." "source/resource"
 
-targetPath "bin"
+targetPath "bin_dub"
 
 dependency "gtk-d:gtkd" version="*"
 libs "fontconfig" "pangoft2"
