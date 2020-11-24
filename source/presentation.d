@@ -12,8 +12,15 @@
 //
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <http://www.gnu.org/licenses/>.
-//
-//  Author:  Russel Winder <russel@winder.org.uk>
+
+/**
+ * @file
+ *
+ * This file contains code associated with handling the data model and rendering of typefaces
+ * and fonts.
+ *
+ * @author Russel Winder <russel@winder.org.uk>
+ */
 
 import std.algorithm: remove;
 import std.conv: to;
@@ -40,7 +47,7 @@ private PresentationTreeView[] registry;
 
 /**
  * Enumeration over the column numbers of the `PresentationListStore` which is the
- * data model for rendering the sample text in all the `PresentationTreeView`s
+ * data model for rendering the sample text in all the `PresentationTreeView`s.
  */
 enum ColumnNumber {
     style, // = 0
@@ -54,6 +61,13 @@ enum ColumnNumber {
  * Class to represent the data model for rendering a typeface and it's fonts.
  */
 class PresentationListStore: ListStore {
+    /**
+     * Constructor for a `PresentationListStore`.
+     *
+     * @param familyName typeface for the sample text.
+     * @param sampleText sample text to render.
+     * @param fontSize font size to render the sample text.
+     */
     this(string familyName, string sampleText, double fontSize) {
         super([
         GType.STRING,  // ColumnNumber.style
@@ -96,11 +110,21 @@ class PresentationTreeView: TreeView {
         registry ~= this;
     }
 
+    /**
+     * Constructor of a `PresentationTreeView` given a `TreeView`.
+     *
+     * @param tv the `TreeView` to use as a basis for construction.
+     */
     this(TreeView tv) {
         super(tv.getTreeViewStruct);
         initialise();
     }
 
+    /**
+     * Constructor of a `PresentationTreeView` given the name of a typeface.
+     *
+     * @param familyName the name of the typeface.
+     */
     this(string familyName) {
         initialise();
     }
@@ -119,6 +143,14 @@ class PresentationTreeView: TreeView {
  * Class for a dialogue rendering a typeface and it's fonts.
  */
 class PresentationDialog: Dialog {
+    /**
+     * Constructor for a `PresentationDialog`.
+     *
+     * @param parent (temporary) parent of the dialogue.
+     * @param familyName name of the typeface.
+     * @param sampleText sample text to render.
+     * @param fontSize font size to render sample text to.
+     */
     this(ApplicationWindow parent, string familyName, string sampleText, double fontSize) {
         super(applicationName ~ " — " ~ familyName, parent, DialogFlags.DESTROY_WITH_PARENT, cast(string[])null, null);
         auto presentationTreeView = new PresentationTreeView(familyName);
@@ -131,9 +163,8 @@ class PresentationDialog: Dialog {
 /**
  * Event handler for any change in the sample text of the application window.
  *
- * Params:
- *     newSize = the new sample test to render in all the `PresentationTreeView` instances
- *       by iterating over all the `PresentationListStore` instances.
+ * @param newText the new sample test to render in all the `PresentationTreeView` instances by
+ *      iterating over all the `PresentationListStore` instances.
  */
 void onSampleTextChanged(string newText) {
     foreach(view; registry){
@@ -150,10 +181,9 @@ void onSampleTextChanged(string newText) {
 /**
  * Event handler for any change in the sample font size of the application window.
  *
- * Params:
- *     newSize = the new font size (in points) to render all the sample texts in all the
- *       `PresentationTreeView` instances by iterating over all the `PresentationListStore`
- *       instances.
+ * @param newSize the new font size (in points) to render all the sample texts in all the
+ *      `PresentationTreeView` instances by iterating over all the `PresentationListStore`
+ *      instances.
  */
 void onFontSizeChanged(double newSize) {
     foreach(view; registry){

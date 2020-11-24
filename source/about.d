@@ -12,8 +12,14 @@
 //
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <http://www.gnu.org/licenses/>.
-//
-//  Author:  Russel Winder <russel@winder.org.uk>
+
+/**
+ * @file
+ *
+ * This file contains the code associated with creating and using the GFontBrowser `AboutDialog`.
+ *
+ * @author Russel Winder <russel@winder.org.uk>
+ */
 
 import std.string: strip;
 
@@ -28,7 +34,7 @@ import configuration: applicationName, applicationId, versionNumber;
 /**
  * Construct the GFontBrowser `AboutDialog`.
  *
- * Returns: a reference to the `AboutDialog`.
+ * @return a reference to the `AboutDialog`.
  */
 private AboutDialog create() {
     auto about = new AboutDialog();
@@ -56,8 +62,7 @@ private AboutDialog create() {
  * Show the GFontBrowser `AboutDialog` in a non-modal way and return, unless one is already
  * being displayed in which case just return.
  *
- * Params:
- *     parent = the (temporary) parent of the `AboutDialogue`.
+ * @param parent the (temporary) parent of the `AboutDialogue`.
  */
 public void showAbout(Window parent) {
     static bool active = false;

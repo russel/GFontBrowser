@@ -13,6 +13,15 @@
 //  You should have received a copy of the GNU General Public License along with this
 //  program. If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * @file
+ *
+ * This file contains the code associated with construction and processing of the map of
+ * typefaces and fonts.
+ *
+ * @author Russel Winder <russel@winder.org.uk>
+ */
+
 import std.conv: to;
 import std.file: exists;
 import std.string: fromStringz, toStringz;
@@ -68,8 +77,7 @@ void initialise_default() {
 /**
  * Process all the directories in a directory list.
  *
- * Params:
- *     directoryList = iterator over the list of directories.
+ * @param directoryList iterator over the list of directories.
  */
 private void processDirectoryList(FcStrList * directoryList) {
     for (auto directoryName = FcStrListNext(directoryList); directoryName; directoryName = FcStrListNext(directoryList)) {
@@ -80,8 +88,7 @@ private void processDirectoryList(FcStrList * directoryList) {
 /**
  * Process a given directory.
  *
- * Params:
- *     directoryName = path to the directory to process.
+ * @param directoryName path to the directory to process.
  */
 private void processDirectoryEntry(FcChar8 * directoryName) {
     auto dirName = to!string(directoryName);
@@ -92,13 +99,17 @@ private void processDirectoryEntry(FcChar8 * directoryName) {
     if (! subdirectorySet) { throw new Exception("Failed to create the subdirectory names set for directory: " ~ dirName); }
     //  TODO Although this allows us to get the list of faces in the directory, it doesn't put
     //     them in the list that can be rendered; this should be fixed.
-    auto returnCode = FcDirScan(directoryFontSet, subdirectorySet, null, FcConfigGetBlanks(configuration), directoryName, FcTrue);
+    immutable returnCode = FcDirScan(directoryFontSet, subdirectorySet, null, FcConfigGetBlanks(configuration), directoryName, FcTrue);
     if (returnCode == FcFalse) { throw new Exception("Failed to scan directories with FcDirScan: " ~ dirName); }
     for (auto i = 0; i < directoryFontSet.nfont; ++i) {
         auto pattern = directoryFontSet.fonts[i];
         FcValue value;
-        if (FcPatternGet(pattern, FC_FAMILY, 0, &value) != FcResult.FcResultMatch) { throw new Exception("Failed to find the family name for a font in: " ~ dirName); }
-        if (value.type != FcType.FcTypeString) { throw new Exception("Return property is of the wrong type: " ~ dirName); }
+        if (FcPatternGet(pattern, FC_FAMILY, 0, &value) != FcResult.FcResultMatch) {
+            throw new Exception("Failed to find the family name for a font in: " ~ dirName); 
+        }
+        if (value.type != FcType.FcTypeString) { 
+            throw new Exception("Return property is of the wrong type: " ~ dirName); 
+        }
         familyMap[to!string(value.u.s)] ~= pattern;
     }
     auto subdirectoryList = FcStrListCreate(subdirectorySet);
@@ -113,8 +124,7 @@ private void processDirectoryEntry(FcChar8 * directoryName) {
 /**
  * Initialise the application using the fonts in an array of directories.
  *
- * Params:
- *     directories = array of paths to directories containing font files.
+ * @param directories array of paths to directories containing font files.
  */
 void initialise_explicit(string[] directories) {
     configuration = null;
@@ -138,11 +148,9 @@ FamilyMap * getFamilyMap() { return &familyMap; }
 /**
  * Getter for a property of a font.
  *
- * Params:
- *     property = string key for the property required.
- *     pattern = the pattern for the font being queried.
- *
- * Returns: `string` value of the property requested.
+ * @param property string key for the property required.
+ * @param pattern the pattern for the font being queried.
+ * @returns `string` value of the property requested.
  */
 private string getStringProperty(string property, FcPattern * pattern) {
     FcChar8 * returnValue;
@@ -155,41 +163,33 @@ private string getStringProperty(string property, FcPattern * pattern) {
 /**
  * Getter for the typeface name (aka font family name) of a font.
  *
- * Params:
- *     pattern = the pattern for the font being queried.
-  *
- * Returns: `string` of the typeface name.
+ * @param pattern the pattern for the font being queried.
+  * @returns `string` of the typeface name.
 */
 string getFontFamily(FcPattern * pattern) { return getStringProperty(FC_FAMILY, pattern); }
 
 /**
  * Getter for the style of a font.
  *
- * Params:
- *     pattern = the pattern for the font being queried.
-  *
- * Returns: `string` of the style of the font.
+ * @param pattern the pattern for the font being queried.
+ * @returns `string` of the style of the font.
 */
 string getFontStyle(FcPattern * pattern) { return getStringProperty(FC_STYLE, pattern); }
 
 /**
  * Getter for the path to the file of a font.
  *
- * Params:
- *     pattern = the pattern for the font being queried.
-  *
- * Returns: `string` of the path to the font file.
+ * @param pattern the pattern for the font being queried.
+ * @returns `string` of the path to the font file.
 */
 string getFontFileName(FcPattern * pattern) { return getStringProperty(FC_FILE, pattern); }
 
 /**
  * Getter for the Pango font description of a font given a FontConfig pattern.
  *
- * Params:
- *     pattern = the pattern for the font being queried.
-  *
- * Returns: `PgFontDescription` of the font requested.
-*/
+ * @param pattern the pattern for the font being queried.
+ * @returns `PgFontDescription` of the font requested.
+ */
 PgFontDescription getFontDescription(FcPattern * pattern) {
     return new PgFontDescription(pango_fc_font_description_from_pattern(pattern, false), false);
 }
@@ -201,10 +201,8 @@ PgFontDescription getFontDescription(FcPattern * pattern) {
  * `initialise_explicit` some fonts may be in the default set and thus visible, some
  * fonts may not be in the default set and so not visible.
  *
- * Params:
- *     pattern = the pattern for the font being queried.
-  *
- * Returns: `bool` value of the visibility of the font.
+ * @param pattern = the pattern for the font being queried.
+ * @returns `bool` value of the visibility of the font.
 */
 bool isVisible(FcPattern * pattern) {
 

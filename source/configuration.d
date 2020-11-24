@@ -12,8 +12,14 @@
 //
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <http://www.gnu.org/licenses/>.
-//
-//  Author:  Russel Winder <russel@winder.org.uk>
+
+/**
+ * @file
+ *
+ * This file contains the code associated with configuration options.
+ *
+ * @author Russel Winder <russel@winder.org.uk>
+ */
 
 import std.algorithm: map;
 import std.conv: to;

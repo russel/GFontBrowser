@@ -12,8 +12,15 @@
 //
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <http://www.gnu.org/licenses/>.
-//
-//  Author:  Russel Winder <russel@winder.org.uk>
+
+/**
+ * @file
+ *
+ * This file contains the code associated with creating and using the `ApplicationWindow` for
+ * this `Application`.
+ *
+ * @author Russel Winder <russel@winder.org.uk>
+ */
 
 import std.algorithm: sort;
 import std.array: array;
@@ -47,7 +54,8 @@ import gdk.Event;
 import about: showAbout;
 import configuration: applicationName, applicationId, versionNumber;
 import fontCatalogue: getFamilyMap;
-import presentation: PresentationDialog, PresentationListStore, PresentationTreeView, onSampleTextChanged, onFontSizeChanged;
+import presentation: PresentationDialog, PresentationListStore, PresentationTreeView, 
+    onSampleTextChanged, onFontSizeChanged;
 
 private ApplicationWindow applicationWindow = null;
 private TreeView familyList = null;
@@ -58,8 +66,7 @@ private SpinButton fontSize = null;  // Access needed by presentation module.
 /**
  * Returns the GFontBrowser `ApplicationWindow`.
  *
- * Params:
- *     application = the `Application` this `ApplicationWindow` is for.
+ * @param application the `Application` this `ApplicationWindow` is for.
  */
 ApplicationWindow getApplicationWindow(Application application) {
     if (applicationWindow is null) {

@@ -12,8 +12,21 @@
 //
 //  You should have received a copy of the GNU General Public License along with this program.
 //  If not, see <http://www.gnu.org/licenses/>.
-//
-//  Author:  Russel Winder <russel@winder.org.uk>
+
+/**
+ * @mainpage
+ *
+ * GFontBrowser is a font browser for GTK+, Fontconfig, Pango based systems.
+ */
+
+/**
+ * @file
+ *
+ * This file contains the main entry point, which processes any local options or starts the GUI
+ * application.
+ *
+ * @author Russel Winder <russel@winder.org.uk>
+ */
 
 import std.stdio: writeln;
 
@@ -39,10 +52,8 @@ import fontCatalogue: initialise_default;
  * Handles a command line version request (-v,--version) as a local option or opens the
  * application window.
  *
- * Params:
- *     args = the command line arguments as per any application.
- *
- * Returns: 0 for success, non-0 for failure.
+ * @param args the command line arguments as per any application.
+ * @returns 0 for success, non-0 for failure.
  */
 int main(string[] args) {
     //auto application = new Application("uk.org.winder.gfrontbrowser", GApplicationFlags.HANDLES_COMMAND_LINE);
