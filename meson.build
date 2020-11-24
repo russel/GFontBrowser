@@ -16,7 +16,7 @@
 project(
   'GFontBrowser',
   'd',
-  version: '0.1.0',  # Ensure this is the same as in ./VERSION
+  version: '0.1.1',  # Ensure this is the same as in ./VERSION
   default_options: ['buildtype=release'],
 )
 
