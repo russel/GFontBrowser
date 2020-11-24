@@ -10,3 +10,4 @@
 /generated/ut_dub_main.d
 /dub_platform_probe*.s
 /Doxygen/
+/.vscode/
