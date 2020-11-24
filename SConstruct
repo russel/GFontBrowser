@@ -24,7 +24,7 @@ from PkgConfig import get_pkgconfig_data
 from GNUInstall import get_paths
 
 build_directory_path = pathlib.Path('bin_scons')
-ddoc_directory_path = pathlib.Path('DDoc')
+doxygen_directory_path = pathlib.Path('Doxygen')
 
 # Versions of dependencies as in Debian Buster (Stable as at 2020-03-10) and later.
 gtk_flags, gtk_libs = get_pkgconfig_data('gtkd-3', version='>= 3.8.5')
@@ -83,6 +83,6 @@ environment.Command('run', application, './$SOURCE')
 test_environment.Alias('build_test', test)
 test_environment.Command('test', test, './$SOURCE')
 
-environment.Command('ddoc', source + fontconfig_module, f'$DC -Dd={ddoc_directory_path.as_posix()} $DFLAGS $DLINKFLAGS $SOURCES')
+environment.Command('docs', source + fontconfig_module, 'doxygen Doxyfile')
 
-Clean('.', [build_directory_path.as_posix(), ddoc_directory_path.as_posix()])
+Clean('.', [build_directory_path.as_posix(), doxygen_directory_path.as_posix()])
