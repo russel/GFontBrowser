@@ -1,10 +1,10 @@
 *~
-/bin/
+/bin_dub/
+/bin_scons/
 /.dub/
 /*.iml
 /.idea/
 /out/
-/scons_build/
 /.sconsign.dblite
 /generated/ut_scons_main.d
 /generated/ut_dub_main.d
